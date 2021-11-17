@@ -27,10 +27,10 @@
     </distributionManagement>
     <scm>
         <connection>scm:git:git://github.com/BorjaLive/SIG.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:BorjaLive/SIG.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:BorjaLive/SIG.git</developerConnection>
         <url>https://github.com/BorjaLive/SIG</url>
-      <tag>sig-1.0.0</tag>
-  </scm>
+        <tag>sig-1.0.0</tag>
+    </scm>
     <developers>
         <developer>
             <name>Borja Lopez Pineda</name>
