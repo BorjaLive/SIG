@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.b0ve</groupId>
     <artifactId>sig</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>SIG: Solucion de Integracion Generica</name>
     <description>Library for implementing Integrations solutions with generic configuration.</description>
