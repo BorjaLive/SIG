@@ -4,6 +4,7 @@ package com.b0ve.sig.utils.condiciones;
  * Simple class to use with Filter and Distributor Tasks. Value must equal, if it does not the message is droped.
  * @author borja
  */
+@Deprecated
 public class FilterConditionEquals extends FilterCondition {
 
     private final String value;
