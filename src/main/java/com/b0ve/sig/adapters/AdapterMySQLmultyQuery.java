@@ -15,10 +15,14 @@ import org.w3c.dom.NodeList;
 /**
  * Adapter that executes a list of queries in a MySQL server. Response is not returned.
  * FORMAT:
+ * <pre>
+ * {@code
  * <queries>
  * <sql> QUERY 1 </sql>
  * <sql> QUERY 2 </sql>
  * <queries>
+ * }
+ * </pre>
  * @author borja
  */
 public class AdapterMySQLmultyQuery extends Adapter {

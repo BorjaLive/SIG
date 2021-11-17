@@ -17,13 +17,21 @@ import org.w3c.dom.Document;
 /**
  * Adapter that executes a query in MySQL server. The response is returned as response, selected column names are not changed.
  * FORMAT: 
+ * <pre>
+ * {@code
  * <sql> QUERY </sql>
+ * }
+ * </pre>
  * RESPONSE:
+ * <pre>
+ * {@code
  * <Results>
  *  <Row>
  *    ONE TAG PER COLUMN WITH ITS ORIGINAL NAME
  *  </Row>
  * </Results>
+ * }
+ * </pre>
  * @author borja
  */
 public class AdapterMySQL extends Adapter {

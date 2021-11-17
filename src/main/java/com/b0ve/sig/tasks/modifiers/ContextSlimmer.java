@@ -8,11 +8,15 @@ import org.w3c.dom.NodeList;
 /**
  * Removes all the nodes selected by a list of XPath expressions.
  * FORMAT:
+ * <pre>
+ * {@code
  * <list>
  *  <item> XPath Expression 1 </item>
  *  <item> XPath Expression 2 </item>
  * ...
  * </list>
+ * }
+ * </pre>
  * @author borja
  */
 public class ContextSlimmer extends ContextSlimmerTemplate {

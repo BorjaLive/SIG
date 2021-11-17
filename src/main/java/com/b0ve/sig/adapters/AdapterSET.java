@@ -10,12 +10,20 @@ import org.w3c.dom.Document;
 /**
  * Memmory (HashSet) for the process, 
  * FORMAT:
+ * <pre>
+ * {@code
  * <query>
  *  <action> {create | delete} </action>
  *  <value> VALUE TO STORE OR DELETE </value>
  * </query>
+ * }
+ * </pre>
  * RESPONSE: True if the action is create and the value already exists or the action is delete and the value does not exist
+ * <pre>
+ * {@code
  * <response> {true | false} </response>
+ * }
+ * </pre>
  * @author borja
  */
 public class AdapterSET extends Adapter {
