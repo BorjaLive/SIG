@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.b0ve</groupId>
     <artifactId>sig</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>SIG: Solucion de Integracion Generica</name>
     <description>Library for implementing Integrations solutions with generic configuration.</description>
@@ -27,7 +27,7 @@
     </distributionManagement>
     <scm>
         <connection>scm:git:git://github.com/BorjaLive/SIG.git</connection>
-        <developerConnection>scm:git:ssh://github.com:BorjaLive/SIG.git</developerConnection>
+        <developerConnection>scm:git:ssh://git@github.com:BorjaLive/SIG.git</developerConnection>
         <url>https://github.com/BorjaLive/SIG</url>
       <tag>sig-1.0.0</tag>
   </scm>
