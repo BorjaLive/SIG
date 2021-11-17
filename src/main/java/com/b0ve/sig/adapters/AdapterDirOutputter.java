@@ -2,6 +2,7 @@ package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -28,7 +29,7 @@ public class AdapterDirOutputter extends Adapter {
             myWriter.write(m.getBodyString());
             myWriter.close();
         } catch (IOException ex) {
-            Logger.getLogger(AdapterDirOutputter.class.getName()).log(Level.SEVERE, null, ex);
+            handleException(new SIGException("Error creating file in directory", destdir, ex));
         }
         return null;
     }

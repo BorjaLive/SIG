@@ -74,7 +74,7 @@ public class AdapterMySQL extends Adapter {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + puerto + "/" + db, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
+            handleException(new SIGException("Error connecting to DB", null, ex));
             conn = null;
         }
     }
@@ -84,7 +84,7 @@ public class AdapterMySQL extends Adapter {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AdapterMySQL.class.getName()).log(Level.SEVERE, null, ex);
+            handleException(new SIGException("Error disconnecting from DB", null, ex));
         }
     }
 

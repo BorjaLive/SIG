@@ -70,7 +70,9 @@ public class AdapterWebAPI extends Adapter {
                 return response.toString();
             }
         } catch (MalformedURLException | ProtocolException | UnknownHostException ex) {
+            handleException(new SIGException("Could not make request to gateway", gateway, ex));
         } catch (IOException ex) {
+            handleException(new SIGException("IO Making request", data, ex));
         }
         return null;
     }
