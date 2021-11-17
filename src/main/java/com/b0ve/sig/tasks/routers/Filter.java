@@ -2,7 +2,7 @@ package com.b0ve.sig.tasks.routers;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.condiciones.Checkeable;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Applies a Checkeable condition to messages.
@@ -18,7 +18,7 @@ public class Filter extends FilterTemplate {
     }
 
     @Override
-    protected boolean check(Message mensaje) throws XPathEvaluationException {
+    protected boolean check(Message mensaje) throws SIGException {
         return condicion.checkCondition(mensaje);
     }
 

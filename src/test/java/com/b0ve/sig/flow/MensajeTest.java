@@ -5,7 +5,7 @@
  */
 package com.b0ve.sig.flow;
 
-import com.b0ve.sig.utils.exceptions.ParseException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import org.junit.Test;
 public class MensajeTest {
 
     @Test
-    public void testFragmentInfo() throws ParseException {
+    public void testFragmentInfo() throws SIGException {
         //Se cumple el orden de inserción y extracción
         Message m1 = new Message("<n>1</n>");
         m1.addFragmentInfo(new FragmentInfo(1, 0));

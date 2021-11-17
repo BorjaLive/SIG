@@ -2,7 +2,6 @@ package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process;
-import com.b0ve.sig.utils.exceptions.ParseException;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class AdapterDirWhatcher extends Adapter {
                             }
                             sleep(1000);
                         }
-                    } catch (ParseException ex) {
+                    } catch (SIGException ex) {
                         handleException(ex);
                     } catch (IOException ex) {
                         handleException(new SIGException("Error reading file", null, ex));

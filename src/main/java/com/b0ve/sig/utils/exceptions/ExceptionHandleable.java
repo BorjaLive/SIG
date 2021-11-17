@@ -1,4 +1,4 @@
-package com.b0ve.sig.utils.exceptions.handlers;
+package com.b0ve.sig.utils.exceptions;
 
 import com.b0ve.sig.utils.exceptions.SIGException;
 

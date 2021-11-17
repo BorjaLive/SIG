@@ -4,8 +4,6 @@ import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.ports.PortInput;
 import com.b0ve.sig.utils.Process.PORTS;
-import com.b0ve.sig.utils.exceptions.ExecutionException;
-import com.b0ve.sig.utils.exceptions.ParseException;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 
@@ -32,7 +30,7 @@ public abstract class Adapter {
      * @throws SIGException 
      */
     public Document sendApp(Message m) throws SIGException {
-        throw new ExecutionException("This port does not support sending direct messages to the app", null, null);
+        throw new SIGException("This port does not support sending direct messages to the app", null, null);
     }
 
     /**
@@ -50,7 +48,7 @@ public abstract class Adapter {
      * @param xml The body of the msasage as a string
      * @throws ParseException 
      */
-    protected void sendProcess(String xml) throws ParseException {
+    protected void sendProcess(String xml) throws SIGException {
         Adapter.this.sendProcess(Message.parseXML(xml));
     }
 

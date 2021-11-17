@@ -1,7 +1,7 @@
 package com.b0ve.sig.tasks.modifiers;
 
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -22,7 +22,7 @@ import org.w3c.dom.NodeList;
 public class ContextSlimmer extends ContextSlimmerTemplate {
 
     @Override
-    protected void slim(Message m, Message condition) throws XPathEvaluationException {
+    protected void slim(Message m, Message condition) throws SIGException {
         Document doc = m.getBody();
         NodeList conditions = condition.evaluateXPath("/list/item");
         for (int j = 0; j < conditions.getLength(); j++) {

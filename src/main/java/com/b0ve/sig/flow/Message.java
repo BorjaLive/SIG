@@ -1,9 +1,6 @@
 package com.b0ve.sig.flow;
 
-import com.b0ve.sig.utils.exceptions.ParseException;
-import com.b0ve.sig.utils.exceptions.XMLMergeException;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
-import com.b0ve.sig.utils.exceptions.XSLTransformationException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -45,23 +42,23 @@ public final class Message {
     private final Stack<FragmentInfo> fragmentInfo;
     private Document body;
 
-    private Message(long ID, long correlationID, Document body) throws ParseException {
+    private Message(long ID, long correlationID, Document body) throws SIGException {
         this.ID = ID;
         this.correlationID = correlationID;
         this.body = cloneDocument(body);
         this.fragmentInfo = new Stack<>();
     }
 
-    public Message(Document body) throws ParseException {
+    public Message(Document body) throws SIGException {
         this(counter, counter, body);
         counter++;
     }
 
-    public Message(String body) throws ParseException {
+    public Message(String body) throws SIGException {
         this(parseXML(body));
     }
 
-    public Message(Message m) throws ParseException {
+    public Message(Message m) throws SIGException {
         this(counter++, m.correlationID, m.body);
         addFragmentInfo(m.getFragmentInfoStack());
     }
@@ -185,9 +182,9 @@ public final class Message {
      * Returns a nodelist of tags that matches the XPath expression, applied to the body.
      * @param expresion XPath expression
      * @return
-     * @throws XPathEvaluationException 
+     * @throws SIGException 
      */
-    public NodeList evaluateXPath(String expresion) throws XPathEvaluationException {
+    public NodeList evaluateXPath(String expresion) throws SIGException {
         return evaluateXPath(body, expresion);
     }
 
@@ -195,9 +192,9 @@ public final class Message {
      * Returns the text content of all the nodes selected by the XPath expression, applied to the body.
      * @param expresion XPath expression
      * @return
-     * @throws XPathEvaluationException 
+     * @throws SIGException 
      */
-    public String evaluateXPathString(String expresion) throws XPathEvaluationException {
+    public String evaluateXPathString(String expresion) throws SIGException {
         NodeList res = evaluateXPath(expresion);
         if (res == null || res.getLength() < 1) {
             return null;
@@ -208,9 +205,9 @@ public final class Message {
     /**
      * Applies a XSLTransformation to the body of the message, changes are stored in same message.
      * @param style XSLT
-     * @throws XSLTransformationException 
+     * @throws SIGException 
      */
-    public void transformBody(String style) throws XSLTransformationException {
+    public void transformBody(String style) throws SIGException {
         try {
             Source xslt = new StreamSource(new StringReader(style)); //El XLT con el formato
             Source text = new StreamSource(new StringReader(getBodyString())); //El XML con los datos
@@ -227,8 +224,8 @@ public final class Message {
 
             StringBuffer sb = outWriter.getBuffer();
             body = parseXML(sb.toString());
-        } catch (SaxonApiException | ParseException ex) {
-            throw new XSLTransformationException(ex.getMessage(), new String[]{style, getBodyString()}, ex);
+        } catch (SaxonApiException ex) {
+            throw new SIGException("Error applying transformation", new String[]{style, getBodyString()}, ex);
         }
     }
 
@@ -241,30 +238,30 @@ public final class Message {
      * XML String to W3C Document
      * @param xml XML String
      * @return W3C Document
-     * @throws ParseException 
+     * @throws SIGException 
      */
-    public static Document parseXML(String xml) throws ParseException {
+    public static Document parseXML(String xml) throws SIGException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.parse(new InputSource(new StringReader(xml)));
-            return documento;
+            Document doc = builder.parse(new InputSource(new StringReader(xml)));
+            return doc;
         } catch (SAXException | IOException | ParserConfigurationException ex) {
-            throw new ParseException(ex.getMessage(), xml, ex);
+            throw new SIGException("Error parsing XML", xml, ex);
         }
     }
 
     /**
      * W3C Document to XML String
-     * @param document W3C Document
+     * @param doc W3C Document
      * @return XML String
      */
-    public static String serialiceXML(Document document) {
+    public static String serialiceXML(Document doc) {
         try {
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer t = tf.newTransformer();
             StringWriter sw = new StringWriter();
-            t.transform(new DOMSource(document), new StreamResult(sw));
+            t.transform(new DOMSource(doc), new StreamResult(sw));
             return sw.toString();
         } catch (TransformerException ex) {
             return "Malformed document";
@@ -273,35 +270,35 @@ public final class Message {
 
     /**
      * Evaluates an Xpath expression in a Document
-     * @param documento W3C Document
+     * @param doc W3C Document
      * @param expresion XPath expression
      * @return NodeList
-     * @throws XPathEvaluationException 
+     * @throws SIGException 
      */
-    public static NodeList evaluateXPath(Document documento, String expresion) throws XPathEvaluationException {
+    public static NodeList evaluateXPath(Document doc, String expresion) throws SIGException {
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
-            return (NodeList) xpath.evaluate(expresion, documento, XPathConstants.NODESET);
+            return (NodeList) xpath.evaluate(expresion, doc, XPathConstants.NODESET);
         } catch (XPathExpressionException ex) {
-            throw new XPathEvaluationException(ex.getMessage(), expresion, ex);
+            throw new SIGException("Error evaluating XPath", new String[]{expresion, serialiceXML(doc)}, ex);
         }
     }
 
     /**
      * Merges two W3C Document together
-     * @param xml1 W3C Document
-     * @param xml2 W3C Document
+     * @param doc1 W3C Document
+     * @param doc2 W3C Document
      * @return W3C Document
-     * @throws XMLMergeException 
+     * @throws SIGException 
      */
-    public static Document mergeXML(Document xml1, Document xml2) throws XMLMergeException {
+    public static Document mergeXML(Document doc1, Document doc2) throws SIGException {
         try {
             XmlCombiner combiner = new XmlCombiner();
-            combiner.combine(xml1);
-            combiner.combine(xml2);
+            combiner.combine(doc1);
+            combiner.combine(doc2);
             return combiner.buildDocument();
         } catch (ParserConfigurationException ex) {
-            throw new XMLMergeException(ex.getMessage(), new Document[]{xml1, xml2}, ex);
+            throw new SIGException("Error merging documents", new Document[]{doc1, doc2}, ex);
         }
     }
 
@@ -310,9 +307,9 @@ public final class Message {
      * References are broken in this process.
      * @param node
      * @return W3C Document
-     * @throws ParseException 
+     * @throws SIGException 
      */
-    public static Document node2document(Node node) throws ParseException {
+    public static Document node2document(Node node) throws SIGException {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setNamespaceAware(true);
@@ -322,7 +319,7 @@ public final class Message {
             newDocument.appendChild(importedNode);
             return newDocument;
         } catch (ParserConfigurationException ex) {
-            throw new ParseException(ex.getMessage(), node, ex);
+            throw new SIGException("Error creating document from node", node, ex);
         }
     }
 
@@ -339,9 +336,9 @@ public final class Message {
      * Returns an identical document to the one passed by parameter
      * @param doc W3C Document
      * @return W3C Document
-     * @throws ParseException 
+     * @throws SIGException 
      */
-    public static Document cloneDocument(Document doc) throws ParseException {
+    public static Document cloneDocument(Document doc) throws SIGException {
         return node2document(document2node(doc));
     }
 
@@ -355,7 +352,7 @@ public final class Message {
     public static Message newMessage(long id, int correlationID, String body) {
         try {
             return new Message(id, correlationID, parseXML(body));
-        } catch (ParseException ex) {
+        } catch (SIGException ex) {
             return null;
         }
     }

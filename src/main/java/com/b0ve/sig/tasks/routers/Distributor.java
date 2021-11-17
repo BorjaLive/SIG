@@ -2,7 +2,7 @@ package com.b0ve.sig.tasks.routers;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.condiciones.Checkeable;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Routes messages based on an array of Checkeable conditions.
@@ -18,7 +18,7 @@ public class Distributor extends DistributorTemplate {
     }
 
     @Override
-    protected int check(Message m) throws XPathEvaluationException {
+    protected int check(Message m) throws SIGException {
         int outPin = -1, i = 0;
         while (outPin == -1 && i < conditions.length) {
             if (conditions[i].checkCondition(m)) {

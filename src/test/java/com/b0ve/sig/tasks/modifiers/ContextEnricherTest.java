@@ -9,7 +9,6 @@ import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.flow.Message;
 import static com.b0ve.sig.flow.Message.newMessage;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -24,7 +23,7 @@ import org.xml.sax.SAXException;
 public class ContextEnricherTest {
 
     @Test
-    public void testContextEnricher1() throws ParserConfigurationException, XPathExpressionException, SAXException, IOException, XPathEvaluationException, SIGException {
+    public void testContextEnricher1() throws ParserConfigurationException, XPathExpressionException, SAXException, IOException, SIGException {
         Message m1 = newMessage(0, 0, "<pelicula><titulo>Crimen Ferpecto</titulo></pelicula>");
         Message m2 = newMessage(0, 0, "<pelicula><precio>10.5</precio></pelicula>");
 

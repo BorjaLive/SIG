@@ -2,8 +2,7 @@ package com.b0ve.sig.ports;
 
 import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.exceptions.ConfigurationException;
-import com.b0ve.sig.utils.exceptions.ParseException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 
 public class PortInput extends Port {
@@ -19,7 +18,7 @@ public class PortInput extends Port {
     public void sendProcess(Document doc) {
         try {
             output(0).push(new Message(doc));
-        } catch (ConfigurationException | ParseException ex) {
+        } catch (SIGException ex) {
             handleException(ex);
         }
     }

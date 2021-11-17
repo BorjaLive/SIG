@@ -2,7 +2,6 @@ package com.b0ve.sig.tasks;
 
 import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.utils.Process;
-import com.b0ve.sig.utils.exceptions.ConfigurationException;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,20 +92,20 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Validates the configuration of the task
-     * @throws ConfigurationException 
+     * @throws SIGException 
      */
-    public void validate() throws ConfigurationException {
+    public void validate() throws SIGException {
         if (maxInputs == -1 && !inputs.isEmpty()) {
-            throw new ConfigurationException("Input multiplicity error", "No inputs allowed, Actual: " + inputs.size(), null);
+            throw new SIGException("Configuration Exception: Input multiplicity error", "No inputs allowed, Actual: " + inputs.size(), null);
         }
         if (maxInputs > 0 && inputs.size() > maxInputs) {
-            throw new ConfigurationException("Input multiplicity error", "Max: " + maxInputs + ", Actual: " + inputs.size(), null);
+            throw new SIGException("Configuration Exception: Input multiplicity error", "Max: " + maxInputs + ", Actual: " + inputs.size(), null);
         }
         if (maxOutputs == -1 && !outputs.isEmpty()) {
-            throw new ConfigurationException("Output multiplicity error", "No outputs allowed, Actual: " + outputs.size(), null);
+            throw new SIGException("Configuration Exception: Output multiplicity error", "No outputs allowed, Actual: " + outputs.size(), null);
         }
         if (maxOutputs > 0 && outputs.size() > maxOutputs) {
-            throw new ConfigurationException("Output multiplicity error", "Max: " + maxOutputs + ", Actual: " + outputs.size(), null);
+            throw new SIGException("Configuration Exception: Output multiplicity error", "Max: " + maxOutputs + ", Actual: " + outputs.size(), null);
         }
     }
 
@@ -114,11 +113,11 @@ abstract public class Task implements Runnable, Notifiable {
      * Returns a input buffer by number. Throws exception if it does not exist.
      * @param n
      * @return
-     * @throws ConfigurationException
+     * @throws SIGException
      */
-    protected final Buffer input(int n) throws ConfigurationException {
+    protected final Buffer input(int n) throws SIGException {
         if (inputs.size() <= n) {
-            throw new ConfigurationException("Input number " + n + " does not exist in this task", n, null);
+            throw new SIGException("Input number " + n + " does not exist in this task", n, null);
         }
         return inputs.get(n);
     }
@@ -143,11 +142,11 @@ abstract public class Task implements Runnable, Notifiable {
      * Returns a output buffer by number. Throws exception if it does not exist.
      * @param n
      * @return
-     * @throws ConfigurationException 
+     * @throws SIGException 
      */
-    protected final Buffer output(int n) throws ConfigurationException {
+    protected final Buffer output(int n) throws SIGException {
         if (outputs.size() <= n) {
-            throw new ConfigurationException("Output number " + n + " does not exist in this task", n, null);
+            throw new SIGException("Output number " + n + " does not exist in this task", n, null);
         }
         return outputs.get(n);
     }
@@ -218,11 +217,11 @@ abstract public class Task implements Runnable, Notifiable {
     /**
      * Syntactic sugar for the connect method of process
      * @param tarea
-     * @throws ConfigurationException 
+     * @throws SIGException 
      */
-    public void connect(Task tarea) throws ConfigurationException {
+    public void connect(Task tarea) throws SIGException {
         if (process == null) {
-            throw new ConfigurationException("Esta tarea no pertenece a ningun proceso, no se puede encadenar", null, null);
+            throw new SIGException("This task does not belong to any tasks, it cannot be connected this way", null, null);
         }
         process.connect(this, tarea);
     }

@@ -24,11 +24,10 @@ import com.b0ve.sig.tasks.transformers.Chopper;
 import com.b0ve.sig.tasks.transformers.Splitter;
 import com.b0ve.sig.tasks.transformers.Translator;
 import com.b0ve.sig.utils.condiciones.Checkeable;
-import com.b0ve.sig.utils.exceptions.ConfigurationException;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import com.b0ve.sig.utils.exceptions.handlers.DefaultExceptionHandler;
-import com.b0ve.sig.utils.exceptions.handlers.ExceptionHandleable;
-import com.b0ve.sig.utils.exceptions.handlers.LogSink;
+import com.b0ve.sig.utils.exceptions.DefaultExceptionHandler;
+import com.b0ve.sig.utils.exceptions.ExceptionHandleable;
+import com.b0ve.sig.utils.exceptions.LogSink;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,9 +191,9 @@ public abstract class Process {
      *
      * @param adapter
      * @return
-     * @throws ConfigurationException
+     * @throws SIGException
      */
-    public Port createPort(Adapter adapter) throws ConfigurationException {
+    public Port createPort(Adapter adapter) throws SIGException {
         Port puerto;
         switch (adapter.getCompatiblePortType()) {
             case INPUT:
@@ -207,7 +206,7 @@ public abstract class Process {
                 puerto = new PortRequest(adapter);
                 break;
             default:
-                throw new ConfigurationException("Adapter did not provide a valid compatible port type.", "Option given by adapter: " + adapter.getCompatiblePortType(), null);
+                throw new SIGException("Error creating port. Adapter did not provide a valid compatible port type.", "Option given by adapter: " + adapter.getCompatiblePortType(), null);
         }
         addTask(puerto);
         return puerto;
@@ -231,7 +230,7 @@ public abstract class Process {
      *
      * @throws ConfigurationException
      */
-    public void validate() throws ConfigurationException {
+    public void validate() throws SIGException {
         for (Task tarea : tasks) {
             tarea.validate();
         }

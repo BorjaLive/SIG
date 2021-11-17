@@ -1,7 +1,6 @@
 package com.b0ve.sig.tasks.modifiers;
 
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.exceptions.ParseException;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 
@@ -20,8 +19,8 @@ public class Enricher extends EnricherTemplate {
         } else {
             try {
                 this.staticContent = Message.parseXML((String) staticContent);
-            } catch (ParseException ex) {
-                handleException(new SIGException(ex.getMessage(), staticContent, ex));
+            } catch (SIGException ex) {
+                handleException(ex);
             }
         }
     }

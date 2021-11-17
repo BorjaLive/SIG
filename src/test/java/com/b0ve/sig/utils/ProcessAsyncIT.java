@@ -19,11 +19,7 @@ import static com.b0ve.sig.utils.Process.TASKS.SPLITTER;
 import static com.b0ve.sig.utils.Process.TASKS.TRANSLATOR;
 import com.b0ve.sig.utils.condiciones.FilterCondition;
 import com.b0ve.sig.utils.condiciones.FilterConditionNotEquals;
-import com.b0ve.sig.utils.exceptions.ConfigurationException;
-import com.b0ve.sig.utils.exceptions.ParseException;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
-import com.b0ve.sig.utils.exceptions.XSLTransformationException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -62,7 +58,7 @@ public class ProcessAsyncIT {
                             + "        </alumno>\n"
                             + "    </alumnos>\n"
                             + "</acta>");
-                } catch (ParseException ex) {
+                } catch (SIGException ex) {
                     Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -101,7 +97,7 @@ public class ProcessAsyncIT {
         };
         Adapter aMail = new Adapter() {
             @Override
-            public Document sendApp(Message m) throws XPathEvaluationException {
+            public Document sendApp(Message m) throws SIGException {
                 correosEnviados.add(m.evaluateXPathString("/alumno/email"));
                 return null;
             }
@@ -113,7 +109,7 @@ public class ProcessAsyncIT {
         };
         Adapter aSMS = new Adapter() {
             @Override
-            public Document sendApp(Message m) throws XPathEvaluationException {
+            public Document sendApp(Message m) throws SIGException {
                 smssEnviados.add(m.evaluateXPathString("/alumno/telefono"));
                 return null;
             }
@@ -130,7 +126,7 @@ public class ProcessAsyncIT {
             pMySQL = p.createPort(aMySQL);
             pMail = p.createPort(aMail);
             pSMS = p.createPort(aSMS);
-        } catch (ConfigurationException ex) {
+        } catch (SIGException ex) {
             Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Port setup failed");
             return;
@@ -194,7 +190,7 @@ public class ProcessAsyncIT {
 
         try {
             p.validate();
-        } catch (ConfigurationException ex) {
+        } catch (SIGException ex) {
             Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Proceso invalido");
         }
@@ -234,7 +230,7 @@ public class ProcessAsyncIT {
                             + "    <lugar>Av. Guatemala, 41</lugar>\n"
                             + "    <valor>400</valor>\n"
                             + "</medida>");
-                } catch (ParseException ex) {
+                } catch (SIGException ex) {
                     Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -263,7 +259,7 @@ public class ProcessAsyncIT {
                             + "    <lugar>Av. Guatemala, 43</lugar>\n"
                             + "    <valor>260</valor>\n"
                             + "</medida>");
-                } catch (ParseException ex) {
+                } catch (SIGException ex) {
                     Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -292,7 +288,7 @@ public class ProcessAsyncIT {
                             + "    <lugar>37.25740833367934, -6.954137427758186</lugar>\n"
                             + "    <valor>110</valor>\n"
                             + "</medida>");
-                } catch (ParseException ex) {
+                } catch (SIGException ex) {
                     Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -328,7 +324,7 @@ public class ProcessAsyncIT {
         };
         Adapter aToGPS = new Adapter() {
             @Override
-            public Document sendApp(Message m) throws ParseException {
+            public Document sendApp(Message m) throws SIGException {
                 return Message.parseXML("<Results><Row><Coordenadas>37.2533675195021, -6.93658688591096</Coordenadas></Row></Results>");
             }
 
@@ -345,7 +341,7 @@ public class ProcessAsyncIT {
             pEMS3 = p.createPort(aEMS3);
             pEstimador = p.createPort(aEstimador);
             pToGPS = p.createPort(aToGPS);
-        } catch (ConfigurationException ex) {
+        } catch (SIGException ex) {
             Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Failed to setup ports.");
             return;
@@ -369,7 +365,7 @@ public class ProcessAsyncIT {
                 + "</xsl:stylesheet>");
         Task slimmer = p.addTask(new SlimmerTemplate() {
             @Override
-            protected void slim(Message mensaje) throws XSLTransformationException {
+            protected void slim(Message mensaje) throws SIGException {
                 mensaje.transformBody("<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\n"
                         + "    <xsl:template match=\"/medida\">\n"
                         + "        <medida>\n"
@@ -408,7 +404,7 @@ public class ProcessAsyncIT {
 
         try {
             p.validate();
-        } catch (ConfigurationException ex) {
+        } catch (SIGException ex) {
             Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Proceso invalido");
         }

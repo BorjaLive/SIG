@@ -1,7 +1,7 @@
 package com.b0ve.sig.utils.condiciones;
 
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.exceptions.XPathEvaluationException;
+import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Simple base class to use in Filter and Distributor Task.
@@ -16,7 +16,7 @@ public abstract class FilterCondition implements Checkeable {
     }
 
     @Override
-    public final boolean checkCondition(Message mensaje) throws XPathEvaluationException {
+    public final boolean checkCondition(Message mensaje) throws SIGException {
         return testValue(mensaje.evaluateXPathString(xpath));
     }
 
