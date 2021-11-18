@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -40,9 +38,9 @@ public class AdapterMySQLmultyQuery extends Adapter {
     }
 
     @Override
-    public Document sendApp(Message m) {
+    public Document sendApp(Document doc) {
         try {
-            NodeList queries = m.evaluateXPath("/queries/sql");
+            NodeList queries = Message.evaluateXPath(doc, "/queries/sql");
             for (int i = 0; i < queries.getLength(); i++) {
                 String sql = queries.item(i).getTextContent();
                 Statement stmt = conn.createStatement();
@@ -50,7 +48,7 @@ public class AdapterMySQLmultyQuery extends Adapter {
                 stmt.close();
             }
         } catch (SQLException ex) {
-            handleException(new SIGException("SQL Exception ", m, ex));
+            handleException(new SIGException("SQL Exception ", Message.serialiceXML(doc), ex));
         } catch (SIGException ex) {
             handleException(ex);
         }

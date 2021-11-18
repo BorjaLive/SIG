@@ -9,8 +9,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 
@@ -49,19 +47,19 @@ public class AdapterMySQL extends Adapter {
     }
 
     @Override
-    public Document sendApp(Message m) {
+    public Document sendApp(Document doc) {
         try {
-            String sql = m.evaluateXPathString("/sql");
+            String sql = Message.evaluateXPathString(doc, "/sql");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            Document doc = JDBCUtil.toDocument(rs);
+            Document res = JDBCUtil.toDocument(rs);
             rs.close();
             stmt.close();
-            return doc;
+            return res;
         } catch (SQLException ex) {
-            handleException(new SIGException("SQL Exception ", m, ex));
+            handleException(new SIGException("SQL Exception ", Message.serialiceXML(doc), ex));
         } catch (ParserConfigurationException ex) {
-            handleException(new SIGException("JDBCUtil Exception ", m, ex));
+            handleException(new SIGException("JDBCUtil Exception ", Message.serialiceXML(doc), ex));
         } catch (SIGException ex) {
             handleException(ex);
         }

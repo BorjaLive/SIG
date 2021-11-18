@@ -7,21 +7,21 @@ import org.w3c.dom.Document;
 
 public class AdapterStubOutput extends Adapter {
 
-    private final ArrayList<Message> messages;
+    private final ArrayList<Document> messages;
 
     public AdapterStubOutput() {
         messages = new ArrayList<>();
     }
 
-    public Message[] getMessages() {
-        Message[] data = messages.toArray(new Message[0]);
+    public Document[] getMessages() {
+        Document[] data = messages.toArray(new Document[0]);
         messages.clear();
         return data;
     }
 
     @Override
-    public Document sendApp(Message m) throws SIGException {
-        messages.add(m);
+    public Document sendApp(Document doc) throws SIGException {
+        messages.add(doc);
         return null;
     }
 

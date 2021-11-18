@@ -27,7 +27,7 @@ public class PortRequest extends Port {
      */
     @Override
     protected void sendApp(Message m) throws SIGException {
-        Document doc = adapter.sendApp(m);
+        Document doc = adapter.sendApp(m.getBody());
         if (doc != null) {
             Message response = new Message(doc);
             response.setCorrelationID(m.getCorrelationID());

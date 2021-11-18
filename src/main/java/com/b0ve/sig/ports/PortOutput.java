@@ -27,7 +27,7 @@ public class PortOutput extends Port {
      */
     @Override
     protected void sendApp(Message m) throws SIGException {
-        adapter.sendApp(m);
+        adapter.sendApp(m.getBody());
     }
 
 }

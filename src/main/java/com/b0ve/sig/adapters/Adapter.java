@@ -29,7 +29,7 @@ public abstract class Adapter {
      * @return A document with the response of the app. Value will be null if application does not need to respond
      * @throws SIGException 
      */
-    public Document sendApp(Message m) throws SIGException {
+    public Document sendApp(Document doc) throws SIGException {
         throw new SIGException("This port does not support sending direct messages to the app", null, null);
     }
 

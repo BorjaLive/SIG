@@ -35,10 +35,10 @@ public class AdapterSET extends Adapter {
     }
 
     @Override
-    public Document sendApp(Message m) throws SIGException {
+    public Document sendApp(Document doc) throws SIGException {
         try {
-            String action = m.evaluateXPathString("/query/action");
-            String value = m.evaluateXPathString("/query/value");
+            String action = Message.evaluateXPathString(doc, "/query/action");
+            String value = Message.evaluateXPathString(doc, "/query/value");
             boolean result = false;
             if (action.equals("create")) {
                 result = set.contains(value);

@@ -16,21 +16,24 @@ import org.w3c.dom.Document;
 public class AdapterDirOutputter extends Adapter {
 
     private final String destdir;
+    private int counter;
 
     public AdapterDirOutputter(String destdir) {
         this.destdir = destdir;
+        counter = 0;
     }
 
     @Override
-    public Document sendApp(Message m) {
+    public Document sendApp(Document doc) {
         FileWriter myWriter = null;
         try {
-            myWriter = new FileWriter(destdir + "/" + m.getID() + ".xml");
-            myWriter.write(m.getBodyString());
+            myWriter = new FileWriter(destdir + "/" + counter + ".xml");
+            myWriter.write(Message.serialiceXML(doc));
             myWriter.close();
         } catch (IOException ex) {
             handleException(new SIGException("Error creating file in directory", destdir, ex));
         }
+        counter ++;
         return null;
     }
 

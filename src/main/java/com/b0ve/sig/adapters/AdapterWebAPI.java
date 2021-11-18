@@ -29,10 +29,10 @@ public class AdapterWebAPI extends Adapter {
     }
 
     @Override
-    public Document sendApp(Message m) {
+    public Document sendApp(Document doc) {
         try {
             //System.out.println("Consulta PHP "+m.evaluateXPath("/call/nombre").item(0).getTextContent());
-            JSONObject xmlJSONObj = XML.toJSONObject(m.getBodyString());
+            JSONObject xmlJSONObj = XML.toJSONObject(Message.serialiceXML(doc));
             String request = xmlJSONObj.toString(4);
             String response = request(request);
             JSONObject json = new JSONObject(response);

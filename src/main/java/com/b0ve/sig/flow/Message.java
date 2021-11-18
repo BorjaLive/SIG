@@ -65,7 +65,8 @@ public final class Message {
 
     /**
      * Returns ID of the message
-     * @return 
+     *
+     * @return
      */
     public long getID() {
         return ID;
@@ -73,7 +74,8 @@ public final class Message {
 
     /**
      * Returns the correlation ID of the message
-     * @return 
+     *
+     * @return
      */
     public long getCorrelationID() {
         return correlationID;
@@ -81,7 +83,8 @@ public final class Message {
 
     /**
      * Returns the body as document
-     * @return 
+     *
+     * @return
      */
     public Document getBody() {
         return body;
@@ -89,15 +92,18 @@ public final class Message {
 
     /**
      * Returns the body as XML String
-     * @return 
+     *
+     * @return
      */
     public String getBodyString() {
         return serialiceXML(body);
     }
 
     /**
-     * Returns the topmost fragment info. Null if there is message is not a fragment.
-     * @return 
+     * Returns the topmost fragment info. Null if there is message is not a
+     * fragment.
+     *
+     * @return
      */
     public FragmentInfo getFragmentInfo() {
         return fragmentInfo.isEmpty() ? null : fragmentInfo.peek();
@@ -105,7 +111,8 @@ public final class Message {
 
     /**
      * Returns topmost fragment id
-     * @return 
+     *
+     * @return
      */
     public long getFragmentID() {
         return fragmentInfo.isEmpty() ? -1 : fragmentInfo.peek().getFragmentID();
@@ -113,7 +120,8 @@ public final class Message {
 
     /**
      * Returns topmost fragment size
-     * @return 
+     *
+     * @return
      */
     public long getFragmentSize() {
         return fragmentInfo.isEmpty() ? -1 : fragmentInfo.peek().getFragmentSize();
@@ -121,15 +129,18 @@ public final class Message {
 
     /**
      * Returns an iterator to walk over all the fragment info.
-     * @return 
+     *
+     * @return
      */
     public Iterator<FragmentInfo> getFragmentInfoStack() {
         return fragmentInfo.iterator();
     }
 
     /**
-     * Sets the body of the message. Document is passed by reference, be carefull.
-     * @param body 
+     * Sets the body of the message. Document is passed by reference, be
+     * carefull.
+     *
+     * @param body
      */
     public void setBody(Document body) {
         this.body = body;
@@ -137,7 +148,8 @@ public final class Message {
 
     /**
      * Sets correlation ID
-     * @param correlationID 
+     *
+     * @param correlationID
      */
     public void setCorrelationID(long correlationID) {
         this.correlationID = correlationID;
@@ -145,7 +157,8 @@ public final class Message {
 
     /**
      * Adds a layer to the fragment info
-     * @param finfo 
+     *
+     * @param finfo
      */
     public void addFragmentInfo(FragmentInfo finfo) {
         fragmentInfo.push(finfo);
@@ -153,7 +166,8 @@ public final class Message {
 
     /**
      * Adds a list of fragment info in the same order
-     * @param finfo 
+     *
+     * @param finfo
      */
     public void addFragmentInfo(Iterator<FragmentInfo> finfo) {
         for (; finfo.hasNext();) {
@@ -164,7 +178,8 @@ public final class Message {
 
     /**
      * Removes topmost fragment info
-     * @return 
+     *
+     * @return
      */
     public FragmentInfo removeFragmentInfo() {
         return fragmentInfo.isEmpty() ? null : fragmentInfo.pop();
@@ -172,40 +187,56 @@ public final class Message {
 
     /**
      * Returns true if the message is fragmented
-     * @return 
+     *
+     * @return
      */
     public boolean isFragment() {
         return !fragmentInfo.isEmpty();
     }
 
     /**
-     * Returns a nodelist of tags that matches the XPath expression, applied to the body.
+     * Returns a nodelist of tags that matches the XPath expression, applied to
+     * the body.
+     *
      * @param expresion XPath expression
      * @return
-     * @throws SIGException 
+     * @throws SIGException
      */
     public NodeList evaluateXPath(String expresion) throws SIGException {
         return evaluateXPath(body, expresion);
     }
 
     /**
-     * Returns the text content of all the nodes selected by the XPath expression, applied to the body.
+     * Returns the text content of all the nodes selected by the XPath
+     * expression, applied to the body.
+     *
      * @param expresion XPath expression
      * @return
-     * @throws SIGException 
+     * @throws SIGException
      */
     public String evaluateXPathString(String expresion) throws SIGException {
-        NodeList res = evaluateXPath(expresion);
-        if (res == null || res.getLength() < 1) {
-            return null;
-        }
-        return res.item(0).getTextContent().trim();
+        return evaluateXPathString(expresion, null);
     }
 
     /**
-     * Applies a XSLTransformation to the body of the message, changes are stored in same message.
+     * Returns the text content of all the nodes selected by the XPath
+     * expression, applied to the body.
+     *
+     * @param expresion XPath expression
+     * @param def Default value if no match is found
+     * @return
+     * @throws SIGException
+     */
+    public String evaluateXPathString(String expresion, String def) throws SIGException {
+        return evaluateXPathString(body, expresion, def);
+    }
+
+    /**
+     * Applies a XSLTransformation to the body of the message, changes are
+     * stored in same message.
+     *
      * @param style XSLT
-     * @throws SIGException 
+     * @throws SIGException
      */
     public void transformBody(String style) throws SIGException {
         try {
@@ -236,9 +267,10 @@ public final class Message {
 
     /**
      * XML String to W3C Document
+     *
      * @param xml XML String
      * @return W3C Document
-     * @throws SIGException 
+     * @throws SIGException
      */
     public static Document parseXML(String xml) throws SIGException {
         try {
@@ -253,6 +285,7 @@ public final class Message {
 
     /**
      * W3C Document to XML String
+     *
      * @param doc W3C Document
      * @return XML String
      */
@@ -270,10 +303,11 @@ public final class Message {
 
     /**
      * Evaluates an Xpath expression in a Document
+     *
      * @param doc W3C Document
      * @param expresion XPath expression
      * @return NodeList
-     * @throws SIGException 
+     * @throws SIGException
      */
     public static NodeList evaluateXPath(Document doc, String expresion) throws SIGException {
         try {
@@ -285,11 +319,53 @@ public final class Message {
     }
 
     /**
+     * Evaluates an Xpath expression in a Document and returns the text content
+     * of the first selected node
+     *
+     * @param doc W3C Document
+     * @param expresion XPath expression
+     * @return String
+     * @throws SIGException
+     */
+    public static String evaluateXPathString(Document doc, String expresion) throws SIGException {
+        try {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            NodeList nodes = (NodeList) xpath.evaluate(expresion, doc, XPathConstants.NODESET);
+            if (nodes.getLength() > 0) {
+                return nodes.item(0).getTextContent().trim();
+            } else {
+                return null;
+            }
+        } catch (XPathExpressionException ex) {
+            throw new SIGException("Error evaluating XPath", new String[]{expresion, serialiceXML(doc)}, ex);
+        }
+    }
+    
+    /**
+     * Evaluates an Xpath expression in a Document and returns the text content, with default value if selection is empty
+     * of the first selected node
+     *
+     * @param doc W3C Document
+     * @param expresion XPath expression
+     * @param def Default value
+     * @return String
+     * @throws SIGException
+     */
+    public static String evaluateXPathString(Document doc, String expresion, String def) throws SIGException {
+        String res = evaluateXPathString(doc, expresion);
+        if(res == null){
+            return def;
+        }
+        return res;
+    }
+
+    /**
      * Merges two W3C Document together
+     *
      * @param doc1 W3C Document
      * @param doc2 W3C Document
      * @return W3C Document
-     * @throws SIGException 
+     * @throws SIGException
      */
     public static Document mergeXML(Document doc1, Document doc2) throws SIGException {
         try {
@@ -303,11 +379,12 @@ public final class Message {
     }
 
     /**
-     * Creates a document where root is the node passed by parameter.
-     * References are broken in this process.
+     * Creates a document where root is the node passed by parameter. References
+     * are broken in this process.
+     *
      * @param node
      * @return W3C Document
-     * @throws SIGException 
+     * @throws SIGException
      */
     public static Document node2document(Node node) throws SIGException {
         try {
@@ -325,8 +402,9 @@ public final class Message {
 
     /**
      * Returns first element of Document as a Node
+     *
      * @param doc Node
-     * @return 
+     * @return
      */
     public static Node document2node(Document doc) {
         return doc.getFirstChild();
@@ -334,20 +412,23 @@ public final class Message {
 
     /**
      * Returns an identical document to the one passed by parameter
+     *
      * @param doc W3C Document
      * @return W3C Document
-     * @throws SIGException 
+     * @throws SIGException
      */
     public static Document cloneDocument(Document doc) throws SIGException {
         return node2document(document2node(doc));
     }
 
     /**
-     * Creates a new message with custom ID and Correlation ID. For debugging and testing purposes.
+     * Creates a new message with custom ID and Correlation ID. For debugging
+     * and testing purposes.
+     *
      * @param id Long
      * @param correlationID Long
      * @param body XML String
-     * @return 
+     * @return
      */
     public static Message newMessage(long id, int correlationID, String body) {
         try {

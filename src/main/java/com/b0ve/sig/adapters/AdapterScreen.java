@@ -13,8 +13,8 @@ import org.w3c.dom.Document;
 public class AdapterScreen extends Adapter {
 
     @Override
-    public Document sendApp(Message m) {
-        JOptionPane.showMessageDialog(null, m.getBody(), m.getBodyString(), JOptionPane.INFORMATION_MESSAGE);
+    public Document sendApp(Document doc) {
+        JOptionPane.showMessageDialog(null, Message.serialiceXML(doc), "Message", JOptionPane.INFORMATION_MESSAGE);
         return null;
     }
 

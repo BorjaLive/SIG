@@ -1,13 +1,11 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import org.w3c.dom.Document;
 
 /**
  * Simple adapter that sends a message to the process for each file that it finds in the directory specified in the constructor. The file is deleted once its readden.
@@ -64,10 +62,4 @@ public class AdapterDirWhatcher extends Adapter {
     public Process.PORTS getCompatiblePortType() {
         return Process.PORTS.INPUT;
     }
-
-    @Override
-    public Document sendApp(Message m) {
-        throw new UnsupportedOperationException("DirWhatcher is now input only. Please use DirOutputter to create files in a directory.");
-    }
-
 }

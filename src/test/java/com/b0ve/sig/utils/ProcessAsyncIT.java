@@ -59,13 +59,8 @@ public class ProcessAsyncIT {
                             + "    </alumnos>\n"
                             + "</acta>");
                 } catch (SIGException ex) {
-                    Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-
-            @Override
-            public Document sendApp(Message m) {
-                throw new UnsupportedOperationException("This should not happend");
             }
 
             @Override
@@ -75,17 +70,15 @@ public class ProcessAsyncIT {
         };
         Adapter aMySQL = new Adapter() {
             @Override
-            public Document sendApp(Message m) {
+            public Document sendApp(Document doc) {
                 try {
-                    Document doc;
-                    if (m.evaluateXPathString("/sql").contains("borja.lopez248")) {
-                        doc = Message.parseXML("<Results><Row><Email>email1@example.org</Email><Telefono>telf1</Telefono></Row></Results>");
+                    if (Message.evaluateXPathString(doc, "/sql").contains("borja.lopez248")) {
+                        return Message.parseXML("<Results><Row><Email>email1@example.org</Email><Telefono>telf1</Telefono></Row></Results>");
                     } else {
-                        doc = Message.parseXML("<Results><Row><Email>email2@example.org</Email><Telefono>null</Telefono></Row></Results>");
+                        return Message.parseXML("<Results><Row><Email>email2@example.org</Email><Telefono>null</Telefono></Row></Results>");
                     }
-                    return doc;
                 } catch (SIGException ex) {
-                    Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return null;
             }
@@ -97,8 +90,8 @@ public class ProcessAsyncIT {
         };
         Adapter aMail = new Adapter() {
             @Override
-            public Document sendApp(Message m) throws SIGException {
-                correosEnviados.add(m.evaluateXPathString("/alumno/email"));
+            public Document sendApp(Document doc) throws SIGException {
+                correosEnviados.add(Message.evaluateXPathString(doc, "/alumno/email"));
                 return null;
             }
 
@@ -109,8 +102,8 @@ public class ProcessAsyncIT {
         };
         Adapter aSMS = new Adapter() {
             @Override
-            public Document sendApp(Message m) throws SIGException {
-                smssEnviados.add(m.evaluateXPathString("/alumno/telefono"));
+            public Document sendApp(Document doc) throws SIGException {
+                smssEnviados.add(Message.evaluateXPathString(doc, "/alumno/telefono"));
                 return null;
             }
 
@@ -127,7 +120,7 @@ public class ProcessAsyncIT {
             pMail = p.createPort(aMail);
             pSMS = p.createPort(aSMS);
         } catch (SIGException ex) {
-            Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Port setup failed");
             return;
         }
@@ -191,7 +184,7 @@ public class ProcessAsyncIT {
         try {
             p.validate();
         } catch (SIGException ex) {
-            Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Proceso invalido");
         }
         p.execute();
@@ -200,7 +193,7 @@ public class ProcessAsyncIT {
             p.shutdown();
             p.waitToEnd();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Problema esperando a que termine el proceso");
         }
 
@@ -231,13 +224,8 @@ public class ProcessAsyncIT {
                             + "    <valor>400</valor>\n"
                             + "</medida>");
                 } catch (SIGException ex) {
-                    Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-
-            @Override
-            public Document sendApp(Message m) {
-                throw new UnsupportedOperationException("This should not happend.");
             }
 
             @Override
@@ -260,15 +248,10 @@ public class ProcessAsyncIT {
                             + "    <valor>260</valor>\n"
                             + "</medida>");
                 } catch (SIGException ex) {
-                    Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
-            @Override
-            public Document sendApp(Message m) {
-                throw new UnsupportedOperationException("This should not happend.");
-            }
-
+            
             @Override
             public Process.PORTS getCompatiblePortType() {
                 return Process.PORTS.INPUT;
@@ -289,13 +272,8 @@ public class ProcessAsyncIT {
                             + "    <valor>110</valor>\n"
                             + "</medida>");
                 } catch (SIGException ex) {
-                    Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-
-            @Override
-            public Document sendApp(Message m) {
-                throw new UnsupportedOperationException("This should not happend.");
             }
 
             @Override
@@ -305,14 +283,14 @@ public class ProcessAsyncIT {
         };
         Adapter aEstimador = new Adapter() {
             @Override
-            public Document sendApp(Message m) {
+            public Document sendApp(Document doc) {
                 try {
-                    String[] cords = m.evaluateXPathString("/medida/lugar").split(",");
+                    String[] cords = Message.evaluateXPathString(doc, "/medida/lugar").split(",");
                     Double.parseDouble(cords[0]);
                     Double.parseDouble(cords[1]);
-                    medidas.add(m.evaluateXPathString("/medida/valor"));
+                    medidas.add(Message.evaluateXPathString(doc, "/medida/valor"));
                 } catch (Exception e) {
-                    fail("El mensaje no llego con las coordenadas en su sitio: " + m);
+                    fail("El mensaje no llego con las coordenadas en su sitio: " + Message.serialiceXML(doc));
                 }
                 return null;
             }
@@ -324,7 +302,7 @@ public class ProcessAsyncIT {
         };
         Adapter aToGPS = new Adapter() {
             @Override
-            public Document sendApp(Message m) throws SIGException {
+            public Document sendApp(Document doc) throws SIGException {
                 return Message.parseXML("<Results><Row><Coordenadas>37.2533675195021, -6.93658688591096</Coordenadas></Row></Results>");
             }
 
@@ -342,7 +320,7 @@ public class ProcessAsyncIT {
             pEstimador = p.createPort(aEstimador);
             pToGPS = p.createPort(aToGPS);
         } catch (SIGException ex) {
-            Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Failed to setup ports.");
             return;
         }
@@ -405,7 +383,7 @@ public class ProcessAsyncIT {
         try {
             p.validate();
         } catch (SIGException ex) {
-            Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Proceso invalido");
         }
         p.execute();
@@ -414,7 +392,7 @@ public class ProcessAsyncIT {
             p.shutdown();
             p.waitToEnd();
         } catch (InterruptedException ex) {
-            Logger.getLogger(ProcessAsyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
             fail("Problema esperando a que termine el proceso");
         }
 
