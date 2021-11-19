@@ -21,11 +21,11 @@ public final class Correlator extends CorrelatorTemplate {
     }
 
     @Override
-    protected boolean route(Message m1, Message m2) throws SIGException {
+    protected boolean correlates(Message m1, Message m2) throws SIGException {
         if (expresion == null) {
-            return super.route(m1, m2);
+            return super.correlates(m1, m2);
         } else {
-            return m1.evaluateXPath(expresion).item(0).getTextContent().equals(m2.evaluateXPath(expresion).item(0).getTextContent());
+            return m1.evaluateXPathString(expresion).equals(m2.evaluateXPathString(expresion));
         }
     }
 

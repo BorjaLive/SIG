@@ -44,9 +44,9 @@ public class SplitterTest {
 
         splitter.process();
 
-        assertTrue(out.retrive().evaluateXPath("/libro").item(0).getTextContent().contains("Robotica Vision y Control"));
-        assertTrue(out.retrive().evaluateXPath("/libro").item(0).getTextContent().contains("Interspecies Reviewers"));
-        assertTrue(out.retrive().evaluateXPath("/libro").item(0).getTextContent().contains("No lunch break"));
+        assertTrue(out.retrive().evaluateXPathString("/libro").contains("Robotica Vision y Control"));
+        assertTrue(out.retrive().evaluateXPathString("/libro").contains("Interspecies Reviewers"));
+        assertTrue(out.retrive().evaluateXPathString("/libro").contains("No lunch break"));
     }
 
     @Test

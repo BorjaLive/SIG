@@ -40,7 +40,7 @@ public class ContextEnricherTest {
 
         enricher.process();
 
-        assertEquals(Message.evaluateXPath(m1.getBody(), "/pelicula").item(0).getTextContent(), "Crimen Ferpecto10.5");
+        assertEquals(m1.evaluateXPathString("/pelicula"), "Crimen Ferpecto10.5");
     }
 
 }

@@ -5,6 +5,7 @@ import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -121,6 +122,14 @@ abstract public class Task implements Runnable, Notifiable {
         }
         return inputs.get(n);
     }
+    
+    /**
+     * Returns a ListIterator for the list of inputs
+     * @return 
+     */
+    public ListIterator<Buffer> inputs(){
+        return inputs.listIterator();
+    }
 
     /**
      * Returns true if the task has at least one input
@@ -149,6 +158,14 @@ abstract public class Task implements Runnable, Notifiable {
             throw new SIGException("Output number " + n + " does not exist in this task", n, null);
         }
         return outputs.get(n);
+    }
+    
+    /**
+     * Returns a list operator for the list of outputs
+     * @return 
+     */
+    public ListIterator<Buffer> outputs(){
+        return outputs.listIterator();
     }
 
     /**
@@ -224,14 +241,6 @@ abstract public class Task implements Runnable, Notifiable {
             throw new SIGException("This task does not belong to any tasks, it cannot be connected this way", null, null);
         }
         process.connect(this, tarea);
-    }
-    
-    public List<Buffer> getInputs(){
-        return inputs;
-    }
-    
-    public List<Buffer> getOutputs(){
-        return outputs;
     }
 
 }

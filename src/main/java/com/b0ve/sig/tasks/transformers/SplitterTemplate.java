@@ -22,12 +22,12 @@ public abstract class SplitterTemplate extends Task {
         Buffer output = output(0);
         Buffer input = input(0);
         while (!input.empty()) {
-            Message mensaje = input.retrive();
-            Document[] parts = split(mensaje);
+            Message message = input.retrive();
+            Document[] parts = split(message);
             long fragmentID = FragmentInfo.uniqueID();
             for (int i = 0; i < parts.length; i++) {
                 Message part = new Message(parts[i]);
-                part.addFragmentInfo(mensaje.getFragmentInfoStack());
+                part.addFragmentInfo(message.getFragmentInfoStack());
                 part.addFragmentInfo(new FragmentInfo(fragmentID, parts.length));
                 output.push(part);
             }

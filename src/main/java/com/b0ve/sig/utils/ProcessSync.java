@@ -5,6 +5,8 @@ import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public class ProcessSync extends Process {
 
@@ -32,8 +34,9 @@ public class ProcessSync extends Process {
                     for (Task task : tasks) {
                         try {
                             boolean hasMessages = false;
-                            for (Buffer input : task.getInputs()) {
-                                if (!input.empty()) {
+                            ListIterator<Buffer> iter = task.inputs();
+                            while (!hasMessages && iter.hasNext()) {
+                                if (!iter.next().empty()) {
                                     hasMessages = true;
                                 }
                             }

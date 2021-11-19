@@ -3,6 +3,8 @@ package com.b0ve.sig.tasks.routers;
 import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 /**
  * Outputs messages received from multiple inpuits to the one output.
@@ -17,11 +19,12 @@ public class Merger extends Task {
     @Override
     public void process() throws SIGException {
         Buffer output = output(0);
-        for (int i = 0; i < nInputs(); i++) {
-            Buffer input = input(i);
+        for (ListIterator<Buffer> iter = inputs(); iter.hasNext();) {
+            Buffer input = iter.next();
             while (!input.empty()) {
                 output.push(input.retrive());
             }
+            
         }
     }
 

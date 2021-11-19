@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Sincronizes messages.
@@ -41,7 +39,7 @@ public abstract class CorrelatorTemplate extends Task {
                         Iterator<Message> iteratorSecondary = input(i).getIterator();
                         while (iteratorSecondary.hasNext() && !found) {
                             Message searched = iteratorSecondary.next();
-                            if (route(objective, searched)) {
+                            if (correlates(objective, searched)) {
                                 relations.get(objective).add(searched);
                                 found = true;
                                 //No importa si dejamos huecos, porque entonces los numeros no cuendran y no se hace nada con los mensajes
@@ -74,7 +72,7 @@ public abstract class CorrelatorTemplate extends Task {
         }
     }
 
-    protected boolean route(Message m1, Message m2) throws SIGException {
+    protected boolean correlates(Message m1, Message m2) throws SIGException {
         return m1.getCorrelationID() == m2.getCorrelationID();
     }
 
