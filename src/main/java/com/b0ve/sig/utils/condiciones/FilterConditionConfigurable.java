@@ -61,10 +61,11 @@ public class FilterConditionConfigurable extends FilterCondition {
                     return text != null;
                 case NOT_EXIST:
                     return text == null;
+                default:
+                    return false;
             }
         } catch (NumberFormatException e) {
             return false;
         }
-        return false;
     }
 }

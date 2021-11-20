@@ -1,7 +1,7 @@
 package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.utils.Process;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class AdapterDirOutputter extends Adapter {
         FileWriter myWriter = null;
         try {
             myWriter = new FileWriter(destdir + "/" + counter + ".xml");
-            myWriter.write(XMLTools.serialize(doc));
+            myWriter.write(XMLUtils.serialize(doc));
             myWriter.close();
         } catch (IOException ex) {
             handleException(new SIGException("Error creating file in directory", destdir, ex));

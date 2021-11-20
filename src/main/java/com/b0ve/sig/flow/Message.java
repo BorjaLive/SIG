@@ -1,7 +1,6 @@
 package com.b0ve.sig.flow;
 
-import com.b0ve.sig.utils.XMLTools;
-import static com.b0ve.sig.utils.XMLTools.*;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.Iterator;
 import java.util.Stack;
@@ -20,7 +19,7 @@ public final class Message {
     private Message(UUID ID, UUID correlationID, Document body) throws SIGException {
         this.ID = ID;
         this.correlationID = correlationID;
-        this.body = XMLTools.clone(body);
+        this.body = XMLUtils.clone(body);
         this.fragmentInfo = new Stack<>();
     }
 
@@ -29,7 +28,7 @@ public final class Message {
     }
 
     public Message(String body) throws SIGException {
-        this(parse(body));
+        this(XMLUtils.parse(body));
     }
 
     public Message(Message m) throws SIGException {
@@ -70,7 +69,7 @@ public final class Message {
      * @return
      */
     public String getBodyString() {
-        return serialize(body);
+        return XMLUtils.serialize(body);
     }
 
     /**
@@ -177,7 +176,7 @@ public final class Message {
      * @throws SIGException
      */
     public NodeList eval(String expresion) throws SIGException {
-        return XMLTools.eval(body, expresion);
+        return XMLUtils.eval(body, expresion);
     }
 
     /**
@@ -189,7 +188,7 @@ public final class Message {
      * @throws SIGException
      */
     public String evalString(String expresion) throws SIGException {
-        return XMLTools.evalString(body, expresion);
+        return XMLUtils.evalString(body, expresion);
     }
 
     /**
@@ -202,7 +201,7 @@ public final class Message {
      * @throws SIGException
      */
     public String evalString(String expresion, String def) throws SIGException {
-        return XMLTools.evalString(body, expresion, def);
+        return XMLUtils.evalString(body, expresion, def);
     }
 
     /**
@@ -214,7 +213,7 @@ public final class Message {
      * @throws SIGException
      */
     public NodeList eval(XPathExpression expresion) throws SIGException {
-        return XMLTools.eval(body, expresion);
+        return XMLUtils.eval(body, expresion);
     }
 
     /**
@@ -226,7 +225,7 @@ public final class Message {
      * @throws SIGException
      */
     public String evalString(XPathExpression expresion) throws SIGException {
-        return XMLTools.evalString(body, expresion);
+        return XMLUtils.evalString(body, expresion);
     }
 
     /**
@@ -239,7 +238,7 @@ public final class Message {
      * @throws SIGException
      */
     public String evalString(XPathExpression expresion, String def) throws SIGException {
-        return XMLTools.evalString(body, expresion, def);
+        return XMLUtils.evalString(body, expresion, def);
     }
 
     /**
@@ -250,12 +249,12 @@ public final class Message {
      * @throws SIGException
      */
     public void transformBody(String style) throws SIGException {
-        body = transform(body, style);
+        body = XMLUtils.transform(body, style);
     }
 
     @Override
     public String toString() {
-        return "Mensaje{" + "ID=" + ID + ", correlationID=" + correlationID + ", fragmentInfo=" + fragmentInfo + ", body=" + serialize(body) + '}';
+        return "Mensaje{" + "ID=" + ID + ", correlationID=" + correlationID + ", fragmentInfo=" + fragmentInfo + ", body=" + XMLUtils.serialize(body) + '}';
     }
 
     /**
@@ -269,7 +268,7 @@ public final class Message {
      */
     public static Message newMessage(UUID id, UUID correlationID, String body) {
         try {
-            return new Message(id, correlationID, parse(body));
+            return new Message(id, correlationID, XMLUtils.parse(body));
         } catch (SIGException ex) {
             return null;
         }

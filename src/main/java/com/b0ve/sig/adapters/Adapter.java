@@ -3,7 +3,7 @@ package com.b0ve.sig.adapters;
 import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.ports.PortInput;
 import com.b0ve.sig.utils.Process.PORTS;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 
@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 public abstract class Adapter {
 
     private Port port;
+    private boolean running;
 
     /**
      * Stablishes the port the adapter is connected to.
@@ -55,19 +56,21 @@ public abstract class Adapter {
      * @throws SIGException
      */
     protected void sendProcess(String xml) throws SIGException {
-        Adapter.this.sendProcess(XMLTools.parse(xml));
-    }
-
-    /**
-     * Stops the adapter if it has running threads
-     */
-    public void halt() {
+        Adapter.this.sendProcess(XMLUtils.parse(xml));
     }
 
     /**
      * Sets up and starts the adapter
      */
     public void iniciate() {
+        running = true;
+    }
+
+    /**
+     * Stops the adapter if it has running threads
+     */
+    public void halt() {
+        running = false;
     }
 
     /**

@@ -48,19 +48,21 @@ public class AdapterDirWhatcher extends Adapter {
     }
 
     @Override
-    public void halt() {
-        if (watcher != null) {
-            watcher.interrupt();
-        }
-    }
-
-    @Override
     public void iniciate() {
+        super.iniciate();
         if (watcher != null) {
             watcher.start();
         }
     }
 
+
+    @Override
+    public void halt() {
+        super.halt();
+        if (watcher != null) {
+            watcher.interrupt();
+        }
+    }
     @Override
     public Process.PORTS getCompatiblePortType() {
         return Process.PORTS.INPUT;

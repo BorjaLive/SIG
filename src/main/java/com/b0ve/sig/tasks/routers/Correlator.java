@@ -1,7 +1,7 @@
 package com.b0ve.sig.tasks.routers;
 
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import javax.xml.xpath.XPathExpression;
 
@@ -19,7 +19,7 @@ public final class Correlator extends CorrelatorTemplate {
         if (expresion == null) {
             this.expresion = null;
         } else {
-            this.expresion = XMLTools.compile(expresion);
+            this.expresion = XMLUtils.compile(expresion);
         }
     }
 

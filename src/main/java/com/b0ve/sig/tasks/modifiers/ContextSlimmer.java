@@ -1,7 +1,7 @@
 package com.b0ve.sig.tasks.modifiers;
 
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
@@ -26,7 +26,7 @@ public class ContextSlimmer extends ContextSlimmerTemplate {
     XPathExpression divisor;
 
     public ContextSlimmer(String divisor) throws SIGException {
-        this.divisor = XMLTools.compile(divisor);
+        this.divisor = XMLUtils.compile(divisor);
     }
 
     public ContextSlimmer() throws SIGException {
@@ -38,7 +38,7 @@ public class ContextSlimmer extends ContextSlimmerTemplate {
         Document doc = m.getBody();
         NodeList conditions = condition.eval(divisor);
         for (int j = 0; j < conditions.getLength(); j++) {
-            NodeList nodes = XMLTools.eval(doc, conditions.item(j).getTextContent());
+            NodeList nodes = XMLUtils.eval(doc, conditions.item(j).getTextContent());
             for (int i = 0; i < nodes.getLength(); i++) {
                 nodes.item(i).getParentNode().removeChild(nodes.item(i));
             }

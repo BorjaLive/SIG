@@ -4,6 +4,9 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,12 +30,13 @@ import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import org.atteo.xmlcombiner.XmlCombiner;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class XMLTools {
+public class XMLUtils {
 
     /**
      * XML String to W3C Document
@@ -285,5 +289,40 @@ public class XMLTools {
         } catch (SaxonApiException ex) {
             throw new SIGException("Error applying transformation", new String[]{style, serialize(doc)}, ex);
         }
+    }
+    
+    /**
+     * Creates a W3C Document from ResultSet given by SQL DB.
+     *
+     * @param rs
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SQLException
+     */
+    public static Document rs2doc(ResultSet rs) throws ParserConfigurationException, SQLException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument();
+
+        Element results = doc.createElement("Results");
+        doc.appendChild(results);
+
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int colCount = rsmd.getColumnCount();
+
+        while (rs.next()) {
+            Element row = doc.createElement("Row");
+            results.appendChild(row);
+
+            for (int i = 1; i <= colCount; i++) {
+                String columnName = rsmd.getColumnName(i);
+                Object value = rs.getObject(i);
+
+                Element node = doc.createElement(columnName);
+                node.appendChild(doc.createTextNode(value.toString()));
+                row.appendChild(node);
+            }
+        }
+        return doc;
     }
 }

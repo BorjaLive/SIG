@@ -1,8 +1,7 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.utils.JDBCUtil;
 import com.b0ve.sig.utils.Process.PORTS;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,7 +35,10 @@ import org.w3c.dom.Document;
 public class AdapterMySQL extends Adapter {
 
     private Connection conn;
-    private final String ip, db, user, pass;
+    private final String ip,
+            db,
+            user,
+            pass;
     private final int puerto;
     private final XPathExpression queryXPath;
 
@@ -46,23 +48,23 @@ public class AdapterMySQL extends Adapter {
         this.db = db;
         this.user = user;
         this.pass = pass;
-        queryXPath = XMLTools.compile("/sql");
+        queryXPath = XMLUtils.compile("/sql");
     }
 
     @Override
     public Document sendApp(Document doc) {
         try {
-            String sql = XMLTools.evalString(doc, queryXPath);
+            String sql = XMLUtils.evalString(doc, queryXPath);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            Document res = JDBCUtil.toDocument(rs);
+            Document res = XMLUtils.rs2doc(rs);
             rs.close();
             stmt.close();
             return res;
         } catch (SQLException ex) {
-            handleException(new SIGException("SQL Exception ", XMLTools.serialize(doc), ex));
+            handleException(new SIGException("SQL Exception ", XMLUtils.serialize(doc), ex));
         } catch (ParserConfigurationException ex) {
-            handleException(new SIGException("JDBCUtil Exception ", XMLTools.serialize(doc), ex));
+            handleException(new SIGException("JDBCUtil Exception ", XMLUtils.serialize(doc), ex));
         } catch (SIGException ex) {
             handleException(ex);
         }
@@ -71,6 +73,7 @@ public class AdapterMySQL extends Adapter {
 
     @Override
     public void iniciate() {
+        super.iniciate();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + puerto + "/" + db, user, pass);
@@ -82,6 +85,7 @@ public class AdapterMySQL extends Adapter {
 
     @Override
     public void halt() {
+        super.halt();
         try {
             conn.close();
         } catch (SQLException ex) {

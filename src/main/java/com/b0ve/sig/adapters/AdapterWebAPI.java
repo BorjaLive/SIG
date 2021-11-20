@@ -1,7 +1,7 @@
 package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.utils.Process.PORTS;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,12 +34,12 @@ public class AdapterWebAPI extends Adapter {
     @Override
     public Document sendApp(Document doc) {
         try {
-            JSONObject xmlJSONObj = XML.toJSONObject(XMLTools.serialize(doc));
+            JSONObject xmlJSONObj = XML.toJSONObject(XMLUtils.serialize(doc));
             String request = xmlJSONObj.toString(4);
             String response = request(request);
             JSONObject json = new JSONObject(response);
             String responseXML = XML.toString(json);
-            return XMLTools.parse(responseXML);
+            return XMLUtils.parse(responseXML);
         } catch (SIGException ex) {
             handleException(ex);
         }
@@ -78,11 +78,7 @@ public class AdapterWebAPI extends Adapter {
         }
         return null;
     }
-
-    @Override
-    public void halt() {
-    }
-
+    
     @Override
     public PORTS getCompatiblePortType() {
         return PORTS.REQUEST;

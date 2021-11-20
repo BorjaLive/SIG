@@ -1,7 +1,7 @@
 package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.utils.Process;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,15 +35,15 @@ public class AdapterSET extends Adapter {
 
     public AdapterSET() throws SIGException {
         set = new HashSet<>();
-        actionXPath = XMLTools.compile("/query/action");
-        valueXPath = XMLTools.compile("/query/value");
+        actionXPath = XMLUtils.compile("/query/action");
+        valueXPath = XMLUtils.compile("/query/value");
     }
 
     @Override
     public Document sendApp(Document doc) throws SIGException {
         try {
-            String action = XMLTools.evalString(doc, actionXPath);
-            String value = XMLTools.evalString(doc, valueXPath);
+            String action = XMLUtils.evalString(doc, actionXPath);
+            String value = XMLUtils.evalString(doc, valueXPath);
             boolean result = false;
             if (action.equals("create")) {
                 result = set.contains(value);
@@ -59,7 +59,7 @@ public class AdapterSET extends Adapter {
                 throw new SIGException("SET doesnt recognize the action", action, null);
             }
             System.out.println("Me preguntan por: " + action + " valor: " + value + " le digo que " + result);
-            return XMLTools.parse("<response>" + (result ? "true" : "false") + "</response>");
+            return XMLUtils.parse("<response>" + (result ? "true" : "false") + "</response>");
         } catch (SIGException ex) {
             handleException(ex);
         }

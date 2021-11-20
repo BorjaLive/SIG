@@ -1,7 +1,7 @@
 package com.b0ve.sig.tasks.modifiers;
 
 import com.b0ve.sig.flow.Message;
-import com.b0ve.sig.utils.XMLTools;
+import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 
@@ -19,13 +19,13 @@ public class Enricher extends EnricherTemplate {
         if (staticContent instanceof Document) {
             this.staticContent = (Document) staticContent;
         } else {
-            this.staticContent = XMLTools.parse((String) staticContent);
+            this.staticContent = XMLUtils.parse((String) staticContent);
         }
     }
 
     @Override
     protected void enrich(Message m) throws SIGException {
-        m.setBody(XMLTools.merge(m.getBody(), staticContent));
+        m.setBody(XMLUtils.merge(m.getBody(), staticContent));
     }
 
 }
