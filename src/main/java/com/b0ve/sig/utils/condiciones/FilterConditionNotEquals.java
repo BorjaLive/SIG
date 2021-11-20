@@ -1,5 +1,7 @@
 package com.b0ve.sig.utils.condiciones;
 
+import com.b0ve.sig.utils.exceptions.SIGException;
+
 /**
  * Simple class to use with Filter and Distributor Tasks. Value must be different, if it is not the message is droped.
  * @author borja
@@ -9,7 +11,7 @@ public class FilterConditionNotEquals extends FilterCondition {
 
     private final String value;
 
-    public FilterConditionNotEquals(String xpath, String value) {
+    public FilterConditionNotEquals(String xpath, String value) throws SIGException {
         super(xpath);
         this.value = value;
     }

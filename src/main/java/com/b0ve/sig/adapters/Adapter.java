@@ -4,6 +4,7 @@ import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.ports.PortInput;
 import com.b0ve.sig.utils.Process.PORTS;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import org.w3c.dom.Document;
 
@@ -25,7 +26,7 @@ public abstract class Adapter {
 
     /**
      * Sends a message to the app.
-     * @param m Message to send
+     * @param doc Document to send
      * @return A document with the response of the app. Value will be null if application does not need to respond
      * @throws SIGException 
      */
@@ -45,11 +46,11 @@ public abstract class Adapter {
 
     /**
      * Sends a document to the port.
-     * @param xml The body of the msasage as a string
-     * @throws ParseException 
+     * @param xml The body of the msasage as a string 
+     * @throws SIGException 
      */
     protected void sendProcess(String xml) throws SIGException {
-        Adapter.this.sendProcess(Message.parseXML(xml));
+        Adapter.this.sendProcess(XMLTools.parse(xml));
     }
 
     /**

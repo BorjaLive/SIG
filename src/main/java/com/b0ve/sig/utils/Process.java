@@ -69,7 +69,7 @@ public abstract class Process {
         REQUEST
     }
 
-    public Process() {
+    public Process() throws SIGException {
         this(false);
     }
 
@@ -81,7 +81,7 @@ public abstract class Process {
     }
 
     /**
-     * Starts the process. Tasks, ports and adapters
+     * Starts the process.Tasks, ports and adapters
      */
     public abstract void execute();
 
@@ -103,7 +103,7 @@ public abstract class Process {
      * @param tipo
      * @return Task added
      */
-    public Task createTask(TASKS tipo) {
+    public Task createTask(TASKS tipo) throws SIGException {
         return createTask(tipo, null);
     }
 
@@ -114,7 +114,7 @@ public abstract class Process {
      * @param configuration
      * @return Task added
      */
-    public Task createTask(TASKS type, Object configuration) {
+    public Task createTask(TASKS type, Object configuration) throws SIGException {
         Task task;
         switch (type) {
             case CORRELATOR:
@@ -228,19 +228,20 @@ public abstract class Process {
     /**
      * Validates all tasks
      *
-     * @throws ConfigurationException
+     * @throws SIGException
      */
     public void validate() throws SIGException {
         for (Task tarea : tasks) {
             tarea.validate();
         }
     }
-    
+
     /**
      * Stablishes a LogSink. Debug log will be sent to this sink.
-     * @param sink 
+     *
+     * @param sink
      */
-    public void setLogSink(LogSink sink){
+    public void setLogSink(LogSink sink) {
         this.logSink = sink;
     }
 
@@ -276,12 +277,14 @@ public abstract class Process {
     public void handleException(SIGException exception) {
         exceptionHandler.handleException(exception);
     }
-    
+
     /**
-     * Counts the number of messages that are stored in buffers. A way to find stuck messages or measure load.
+     * Counts the number of messages that are stored in buffers. A way to find
+     * stuck messages or measure load.
+     *
      * @return Number of messages in buffers
      */
-    public int messageCount(){
+    public int messageCount() {
         int nMensajes = 0;
         for (Buffer buffer : buffers) {
             nMensajes += buffer.size();

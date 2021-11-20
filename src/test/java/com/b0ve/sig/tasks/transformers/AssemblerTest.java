@@ -58,13 +58,13 @@ public class AssemblerTest {
         mid2.retrive();
         assembler.process();
 
-        assertEquals(out.retrive().evaluateXPath("/coleccion/libro").getLength(), 3);
+        assertEquals(out.retrive().eval("/coleccion/libro").getLength(), 3);
         assertTrue(out.empty());
         assertNotNull(mid1.retrive());
         assertNull(mid2.retrive());
         assertNotNull(mid3.retrive());
     }
-    
+
     @Test
     public void testAssembler2() throws SIGException {
         Message m1 = newMessage(0, 0, "<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c><c>b2c2</c></b></a>");

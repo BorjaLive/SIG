@@ -3,7 +3,6 @@ package com.b0ve.sig.tasks.routers;
 import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 /**

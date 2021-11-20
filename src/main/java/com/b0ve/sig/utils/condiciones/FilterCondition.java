@@ -1,7 +1,9 @@
 package com.b0ve.sig.utils.condiciones;
 
 import com.b0ve.sig.flow.Message;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import javax.xml.xpath.XPathExpression;
 
 /**
  * Simple base class to use in Filter and Distributor Task.
@@ -9,15 +11,15 @@ import com.b0ve.sig.utils.exceptions.SIGException;
  */
 public abstract class FilterCondition implements Checkeable {
 
-    private final String xpath;
+    private final XPathExpression xpath;
 
-    public FilterCondition(String xpath) {
-        this.xpath = xpath;
+    public FilterCondition(String xpath) throws SIGException {
+        this.xpath = XMLTools.compile(xpath);
     }
 
     @Override
     public final boolean checkCondition(Message mensaje) throws SIGException {
-        return testValue(mensaje.evaluateXPathString(xpath));
+        return testValue(mensaje.evalString(xpath));
     }
 
     protected abstract boolean testValue(String text);

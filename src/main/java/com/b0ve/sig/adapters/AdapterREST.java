@@ -1,7 +1,5 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
-import static com.b0ve.sig.flow.Message.evaluateXPathString;
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.IOException;
@@ -86,6 +84,7 @@ public class AdapterREST extends Adapter {
 
     @Override
     public Document sendApp(Document doc) throws SIGException {
+        /*
         //Obtain basic information about request
         String url = evaluateXPathString(doc, "/request/url");
         String method = evaluateXPathString(doc, "/request/method", "GET").toUpperCase();
@@ -158,7 +157,8 @@ public class AdapterREST extends Adapter {
         } catch (IOException ex) {
             Logger.getLogger(AdapterREST.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        */
+        
         return null;
     }
 

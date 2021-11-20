@@ -1,6 +1,7 @@
 package com.b0ve.sig.tasks.transformers;
 
 import com.b0ve.sig.flow.Message;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,7 +49,7 @@ public final class Aggregator extends AggregatorTemplate {
                 doc.appendChild(appendPoint);
             }
             for (Message message : messages) {
-                Node newChild = Message.document2node(message.getBody());
+                Node newChild = XMLTools.document2node(message.getBody());
                 Node imported = doc.importNode(newChild, true);
                 appendPoint.appendChild(imported);
             }

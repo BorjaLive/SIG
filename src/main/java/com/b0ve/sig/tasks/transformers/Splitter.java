@@ -1,7 +1,9 @@
 package com.b0ve.sig.tasks.transformers;
 
 import com.b0ve.sig.flow.Message;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -11,19 +13,18 @@ import org.w3c.dom.NodeList;
  */
 public final class Splitter extends SplitterTemplate {
 
-    private final String xpath;
+    private final XPathExpression xpath;
 
-    public Splitter(String xpath) {
-        super();
-        this.xpath = xpath;
+    public Splitter(String xpath) throws SIGException {
+        this.xpath = XMLTools.compile(xpath);
     }
 
     @Override
     protected Document[] split(Message m) throws SIGException {
-        NodeList lista = m.evaluateXPath(xpath);
+        NodeList lista = m.eval(xpath);
         Document[] partes = new Document[lista.getLength()];
         for (int i = 0; i < lista.getLength(); i++) {
-            partes[i] = Message.node2document(lista.item(i));
+            partes[i] = XMLTools.node2document(lista.item(i));
         }
         return partes;
     }

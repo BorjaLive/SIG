@@ -2,11 +2,13 @@ package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process.PORTS;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -28,19 +30,21 @@ public class AdapterMySQLmultyQuery extends Adapter {
     private Connection conn;
     private final String ip, db, user, pass;
     private final int puerto;
+    private final XPathExpression queryXPath;
 
-    public AdapterMySQLmultyQuery(String ip, int puerto, String db, String user, String pass) {
+    public AdapterMySQLmultyQuery(String ip, int puerto, String db, String user, String pass) throws SIGException {
         this.ip = ip;
         this.puerto = puerto;
         this.db = db;
         this.user = user;
         this.pass = pass;
+        queryXPath = XMLTools.compile("/queries/sql");
     }
 
     @Override
     public Document sendApp(Document doc) {
         try {
-            NodeList queries = Message.evaluateXPath(doc, "/queries/sql");
+            NodeList queries = XMLTools.eval(doc, queryXPath);
             for (int i = 0; i < queries.getLength(); i++) {
                 String sql = queries.item(i).getTextContent();
                 Statement stmt = conn.createStatement();
@@ -48,7 +52,7 @@ public class AdapterMySQLmultyQuery extends Adapter {
                 stmt.close();
             }
         } catch (SQLException ex) {
-            handleException(new SIGException("SQL Exception ", Message.serialiceXML(doc), ex));
+            handleException(new SIGException("SQL Exception ", XMLTools.serialize(doc), ex));
         } catch (SIGException ex) {
             handleException(ex);
         }

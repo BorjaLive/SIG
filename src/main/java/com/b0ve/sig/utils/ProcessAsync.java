@@ -13,11 +13,11 @@ public class ProcessAsync extends Process {
         super(debug);
         this.threads = new ArrayList<>();
     }
-
+    
     public ProcessAsync() {
         this(false);
     }
-
+    
     @Override
     public void execute() {
         for (Task tarea : tasks) {

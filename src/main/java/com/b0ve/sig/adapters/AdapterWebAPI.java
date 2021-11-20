@@ -2,6 +2,7 @@ package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process.PORTS;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,13 +32,12 @@ public class AdapterWebAPI extends Adapter {
     @Override
     public Document sendApp(Document doc) {
         try {
-            //System.out.println("Consulta PHP "+m.evaluateXPath("/call/nombre").item(0).getTextContent());
-            JSONObject xmlJSONObj = XML.toJSONObject(Message.serialiceXML(doc));
+            JSONObject xmlJSONObj = XML.toJSONObject(XMLTools.serialize(doc));
             String request = xmlJSONObj.toString(4);
             String response = request(request);
             JSONObject json = new JSONObject(response);
             String responseXML = XML.toString(json);
-            return Message.parseXML(responseXML);
+            return XMLTools.parse(responseXML);
         } catch (SIGException ex) {
             handleException(ex);
         }

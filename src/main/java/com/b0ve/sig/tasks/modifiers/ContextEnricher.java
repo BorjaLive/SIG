@@ -1,6 +1,7 @@
 package com.b0ve.sig.tasks.modifiers;
 
 import com.b0ve.sig.flow.Message;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
@@ -11,7 +12,7 @@ public class ContextEnricher extends ContextEnricherTemplate {
 
     @Override
     protected void enrich(Message m, Message condition) throws SIGException {
-        m.setBody(Message.mergeXML(m.getBody(), condition.getBody()));
+        m.setBody(XMLTools.merge(m.getBody(), condition.getBody()));
     }
 
 }

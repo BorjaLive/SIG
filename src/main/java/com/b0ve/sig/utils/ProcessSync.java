@@ -4,18 +4,17 @@ import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 public class ProcessSync extends Process {
 
     private Thread ejecucion;
-
+    
+    
     public ProcessSync(boolean debug) {
         super(debug);
     }
-
+    
     public ProcessSync() {
         this(false);
     }

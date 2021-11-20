@@ -48,11 +48,11 @@ public class ChopperTest {
 
         chopper.process();
 
-        assertTrue(out1.retrive().evaluateXPath("/libro").item(0).getTextContent().contains("Robotica Vision y Control"));
-        assertTrue(out2.retrive().evaluateXPath("/libro").item(0).getTextContent().contains("Interspecies Reviewers"));
-        assertTrue(out3.retrive().evaluateXPath("/libro").item(0).getTextContent().contains("No lunch break"));
+        assertTrue(out1.retrive().evalString("/libro").contains("Robotica Vision y Control"));
+        assertTrue(out2.retrive().evalString("/libro").contains("Interspecies Reviewers"));
+        assertTrue(out3.retrive().evalString("/libro").contains("No lunch break"));
     }
-    
+
     @Test
     public void testChopper2() throws SIGException {
         Message m1 = newMessage(0, 0, "<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c><c>b2c2</c></b></a>");
@@ -82,10 +82,10 @@ public class ChopperTest {
         c2a.process();
         c2b.process();
 
-        assertEquals(out1.retrive().evaluateXPath("/c").item(0).getTextContent(), "b1c1");
-        assertEquals(out2.retrive().evaluateXPath("/c").item(0).getTextContent(), "b1c2");
-        assertEquals(out3.retrive().evaluateXPath("/c").item(0).getTextContent(), "b2c1");
-        assertEquals(out4.retrive().evaluateXPath("/c").item(0).getTextContent(), "b2c2");
+        assertEquals(out1.retrive().evalString("/c"), "b1c1");
+        assertEquals(out2.retrive().evalString("/c"), "b1c2");
+        assertEquals(out3.retrive().evalString("/c"), "b2c1");
+        assertEquals(out4.retrive().evalString("/c"), "b2c2");
     }
 
 }

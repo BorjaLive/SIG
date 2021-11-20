@@ -17,9 +17,6 @@ import org.junit.Test;
  * @author borja
  */
 public class ContextSlimmerTest {
-    
-    public ContextSlimmerTest() {
-    }
 
     @Test
     public void testContextSlimmer1() throws SIGException {
@@ -76,5 +73,5 @@ public class ContextSlimmerTest {
         assertFalse(m.getBodyString().contains("Borrame2"));
         assertTrue(m.getBodyString().contains("Salvame1"));
     }
-    
+
 }

@@ -17,9 +17,6 @@ import org.junit.Test;
  * @author borja
  */
 public class EnricherTest {
-    
-    public EnricherTest() {
-    }
 
     @Test
     public void testEnricher1() throws SIGException {
@@ -36,8 +33,8 @@ public class EnricherTest {
 
         Message response = out.retrive();
         assertNotNull(response);
-        assertTrue(response.evaluateXPathString("/pelicula/titulo").contains("Crimen Ferpecto"));
-        assertTrue(response.evaluateXPathString("/pelicula/precio").contains("10.5"));
+        assertTrue(response.evalString("/pelicula/titulo").contains("Crimen Ferpecto"));
+        assertTrue(response.evalString("/pelicula/precio").contains("10.5"));
     }
-    
+
 }

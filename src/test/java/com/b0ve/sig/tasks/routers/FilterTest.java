@@ -48,7 +48,7 @@ public class FilterTest {
         Message m3 = newMessage(2, 2, "<cid>2</cid>");
 
         Filter filter = new Filter((mensaje) -> {
-            return Integer.parseInt(mensaje.evaluateXPath("/cid").item(0).getTextContent()) >= 1;
+            return Integer.parseInt(mensaje.evalString("/cid")) >= 1;
         });
         Buffer in = new Buffer(null, null);
         filter.addInput(in);

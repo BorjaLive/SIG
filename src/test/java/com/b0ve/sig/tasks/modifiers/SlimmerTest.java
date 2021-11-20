@@ -17,9 +17,6 @@ import org.junit.Test;
  */
 public class SlimmerTest {
 
-    public SlimmerTest() {
-    }
-
     @Test
     public void testSlimmer1() throws Exception {
         Message m1 = newMessage(0, 0, "<cambios>\n"

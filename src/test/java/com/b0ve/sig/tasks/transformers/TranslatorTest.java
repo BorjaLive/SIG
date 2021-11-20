@@ -43,7 +43,7 @@ public class TranslatorTest {
 
         translator.process();
 
-        assertEquals(out.retrive().evaluateXPath("/libro/nombre").item(0).getTextContent(), "Peter Corke - Robotica Vision y Control");
+        assertEquals(out.retrive().evalString("/libro/nombre"), "Peter Corke - Robotica Vision y Control");
     }
 
 }

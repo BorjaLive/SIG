@@ -78,9 +78,9 @@ public class CorrelatorTest {
 
         correlator.process();
 
-        assertEquals(out1.retrive().evaluateXPathString("/cid"), out2.retrive().evaluateXPathString("/cid"));
-        assertEquals(out1.retrive().evaluateXPathString("/cid"), out2.retrive().evaluateXPathString("/cid"));
-        assertEquals(out1.retrive().evaluateXPathString("/cid"), out2.retrive().evaluateXPathString("/cid"));
+        assertEquals(out1.retrive().evalString("/cid"), out2.retrive().evalString("/cid"));
+        assertEquals(out1.retrive().evalString("/cid"), out2.retrive().evalString("/cid"));
+        assertEquals(out1.retrive().evalString("/cid"), out2.retrive().evalString("/cid"));
     }
 
 }

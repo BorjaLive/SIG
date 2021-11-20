@@ -2,9 +2,12 @@ package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.HashSet;
 import java.util.Set;
+import javax.xml.xpath.XPathException;
+import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 
 /**
@@ -29,16 +32,20 @@ import org.w3c.dom.Document;
 public class AdapterSET extends Adapter {
 
     private final Set<String> set;
+    private final XPathExpression actionXPath;
+    private final XPathExpression valueXPath;
 
-    public AdapterSET() {
+    public AdapterSET() throws SIGException {
         set = new HashSet<>();
+        actionXPath = XMLTools.compile("/query/action");
+        valueXPath = XMLTools.compile("/query/value");
     }
 
     @Override
     public Document sendApp(Document doc) throws SIGException {
         try {
-            String action = Message.evaluateXPathString(doc, "/query/action");
-            String value = Message.evaluateXPathString(doc, "/query/value");
+            String action = XMLTools.evalString(doc, actionXPath);
+            String value = XMLTools.evalString(doc, valueXPath);
             boolean result = false;
             if (action.equals("create")) {
                 result = set.contains(value);
@@ -54,7 +61,7 @@ public class AdapterSET extends Adapter {
                 throw new SIGException("SET doesnt recognize the action", action, null);
             }
             System.out.println("Me preguntan por: " + action + " valor: " + value + " le digo que " + result);
-            return Message.parseXML("<response>" + (result ? "true" : "false") + "</response>");
+            return XMLTools.parse("<response>" + (result ? "true" : "false") + "</response>");
         } catch (SIGException ex) {
             handleException(ex);
         }

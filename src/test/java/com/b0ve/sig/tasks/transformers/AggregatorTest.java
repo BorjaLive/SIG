@@ -53,17 +53,17 @@ public class AggregatorTest {
         mid.retrive();
         aggregator.process();
 
-        assertEquals(out.retrive().evaluateXPath("/coleccion/libro").getLength(),3);
+        assertEquals(out.retrive().eval("/coleccion/libro").getLength(), 3);
         assertTrue(out.empty());
         assertNotNull(mid.retrive());
         assertNotNull(mid.retrive());
         assertNull(mid.retrive());
     }
-    
+
     @Test
     public void testAggregator2() throws SIGException {
         Message m1 = newMessage(0, 0, "<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c></b></a>");
-        
+
         Splitter s1 = new Splitter("/a/b");
         Buffer sin = new Buffer(null, null);
         s1.addInput(sin);
@@ -73,7 +73,7 @@ public class AggregatorTest {
         s2.addInput(smid);
         Buffer sout = new Buffer(null, null);
         s2.addOutput(sout);
-        
+
         Aggregator a2 = new Aggregator("b");
         a2.addInput(sout);
         Buffer amid = new Buffer(null, null);
@@ -88,12 +88,12 @@ public class AggregatorTest {
 
         s1.process();
         s2.process();
-        
+
         Iterator<Message> iter = sout.getIterator();
         iter.next();
         iter.next();
         sout.deleteMessage(iter.next());
-        
+
         a2.process();
         a1.process();
 

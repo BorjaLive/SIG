@@ -3,6 +3,7 @@ package com.b0ve.sig.adapters;
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.JDBCUtil;
 import com.b0ve.sig.utils.Process.PORTS;
+import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 
 /**
@@ -37,19 +39,21 @@ public class AdapterMySQL extends Adapter {
     private Connection conn;
     private final String ip, db, user, pass;
     private final int puerto;
+    private final XPathExpression queryXPath;
 
-    public AdapterMySQL(String ip, int puerto, String db, String user, String pass) {
+    public AdapterMySQL(String ip, int puerto, String db, String user, String pass) throws SIGException {
         this.ip = ip;
         this.puerto = puerto;
         this.db = db;
         this.user = user;
         this.pass = pass;
+        queryXPath = XMLTools.compile("/sql");
     }
 
     @Override
     public Document sendApp(Document doc) {
         try {
-            String sql = Message.evaluateXPathString(doc, "/sql");
+            String sql = XMLTools.evalString(doc, "/sql");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             Document res = JDBCUtil.toDocument(rs);
@@ -57,9 +61,9 @@ public class AdapterMySQL extends Adapter {
             stmt.close();
             return res;
         } catch (SQLException ex) {
-            handleException(new SIGException("SQL Exception ", Message.serialiceXML(doc), ex));
+            handleException(new SIGException("SQL Exception ", XMLTools.serialize(doc), ex));
         } catch (ParserConfigurationException ex) {
-            handleException(new SIGException("JDBCUtil Exception ", Message.serialiceXML(doc), ex));
+            handleException(new SIGException("JDBCUtil Exception ", XMLTools.serialize(doc), ex));
         } catch (SIGException ex) {
             handleException(ex);
         }

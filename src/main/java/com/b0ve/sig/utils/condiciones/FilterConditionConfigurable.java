@@ -1,5 +1,7 @@
 package com.b0ve.sig.utils.condiciones;
 
+import com.b0ve.sig.utils.exceptions.SIGException;
+
 /**
  * Configurable class to use with Filter and Distributor Task.
  * @author borja
@@ -24,7 +26,7 @@ public class FilterConditionConfigurable extends FilterCondition {
     private final String value;
     private final CONDITIONS condition;
 
-    public FilterConditionConfigurable(String xpath, CONDITIONS condition, String value) {
+    public FilterConditionConfigurable(String xpath, CONDITIONS condition, String value) throws SIGException {
         super(xpath);
         this.value = value;
         this.condition = condition;

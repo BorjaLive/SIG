@@ -35,7 +35,7 @@ import org.w3c.dom.Document;
 public class ProcessSyncIT {
 
     @Test
-    public void testProcessAsyncEjercicio1() {
+    public void testProcessAsyncEjercicio1() throws SIGException {
         Process p = new ProcessSync();
 
         ArrayList<String> correosEnviados = new ArrayList<>();
@@ -72,10 +72,10 @@ public class ProcessSyncIT {
             @Override
             public Document sendApp(Document doc) {
                 try {
-                    if (Message.evaluateXPathString(doc, "/sql").contains("borja.lopez248")) {
-                        return Message.parseXML("<Results><Row><Email>email1@example.org</Email><Telefono>telf1</Telefono></Row></Results>");
+                    if (XMLTools.evalString(doc, "/sql").contains("borja.lopez248")) {
+                        return XMLTools.parse("<Results><Row><Email>email1@example.org</Email><Telefono>telf1</Telefono></Row></Results>");
                     } else {
-                        return Message.parseXML("<Results><Row><Email>email2@example.org</Email><Telefono>null</Telefono></Row></Results>");
+                        return XMLTools.parse("<Results><Row><Email>email2@example.org</Email><Telefono>null</Telefono></Row></Results>");
                     }
                 } catch (SIGException ex) {
                     Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,7 +91,7 @@ public class ProcessSyncIT {
         Adapter aMail = new Adapter() {
             @Override
             public Document sendApp(Document doc) throws SIGException {
-                correosEnviados.add(Message.evaluateXPathString(doc, "/alumno/email"));
+                correosEnviados.add(XMLTools.evalString(doc, "/alumno/email"));
                 return null;
             }
 
@@ -103,7 +103,7 @@ public class ProcessSyncIT {
         Adapter aSMS = new Adapter() {
             @Override
             public Document sendApp(Document doc) throws SIGException {
-                smssEnviados.add(Message.evaluateXPathString(doc, "/alumno/telefono"));
+                smssEnviados.add(XMLTools.evalString(doc, "/alumno/telefono"));
                 return null;
             }
 
@@ -204,7 +204,7 @@ public class ProcessSyncIT {
     }
 
     @Test
-    public void testProcessAsyncEjercicio2() {
+    public void testProcessAsyncEjercicio2() throws SIGException {
         Process p = new ProcessSync();
 
         ArrayList<String> medidas = new ArrayList<>();
@@ -285,12 +285,12 @@ public class ProcessSyncIT {
             @Override
             public Document sendApp(Document doc) {
                 try {
-                    String[] cords = Message.evaluateXPathString(doc, "/medida/lugar").split(",");
+                    String[] cords = XMLTools.evalString(doc, "/medida/lugar").split(",");
                     Double.parseDouble(cords[0]);
                     Double.parseDouble(cords[1]);
-                    medidas.add(Message.evaluateXPathString(doc, "/medida/valor"));
+                    medidas.add(XMLTools.evalString(doc, "/medida/valor"));
                 } catch (Exception e) {
-                    fail("El mensaje no llego con las coordenadas en su sitio: " + Message.serialiceXML(doc));
+                    fail("El mensaje no llego con las coordenadas en su sitio: " + XMLTools.serialize(doc));
                 }
                 return null;
             }
@@ -303,7 +303,7 @@ public class ProcessSyncIT {
         Adapter aToGPS = new Adapter() {
             @Override
             public Document sendApp(Document doc) throws SIGException {
-                return Message.parseXML("<Results><Row><Coordenadas>37.2533675195021, -6.93658688591096</Coordenadas></Row></Results>");
+                return XMLTools.parse("<Results><Row><Coordenadas>37.2533675195021, -6.93658688591096</Coordenadas></Row></Results>");
             }
 
             @Override
