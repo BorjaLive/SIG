@@ -20,7 +20,7 @@ public class TranslatorTest {
 
     @Test
     public void testTranslator1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<libro><titulo>Robotica Vision y Control</titulo><autor>Peter Corke</autor><precio>70</precio></libro>");
+        Message m1 = newMessage("<libro><titulo>Robotica Vision y Control</titulo><autor>Peter Corke</autor><precio>70</precio></libro>");
         Translator translator = new Translator("<?xml version=\"1.0\"?>\n"
                 + "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\n"
                 + "<xsl:template match=\"/libro\">\n"

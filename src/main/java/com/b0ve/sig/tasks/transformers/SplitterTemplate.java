@@ -5,10 +5,12 @@ import com.b0ve.sig.flow.FragmentInfo;
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import java.util.UUID;
 import org.w3c.dom.Document;
 
 /**
  * Outputs multiple messages with content from a single message
+ *
  * @author borja
  */
 public abstract class SplitterTemplate extends Task {
@@ -24,7 +26,7 @@ public abstract class SplitterTemplate extends Task {
         while (!input.empty()) {
             Message message = input.retrive();
             Document[] parts = split(message);
-            long fragmentID = FragmentInfo.uniqueID();
+            UUID fragmentID = UUID.randomUUID();
             for (int i = 0; i < parts.length; i++) {
                 Message part = new Message(parts[i]);
                 part.addFragmentInfo(message.getFragmentInfoStack());

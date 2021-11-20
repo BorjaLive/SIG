@@ -35,7 +35,7 @@ import org.w3c.dom.Document;
 public class ProcessSyncIT {
 
     @Test
-    public void testProcessAsyncEjercicio1() throws SIGException {
+    public void testProcAsyncEj1() throws SIGException {
         Process p = new ProcessSync();
 
         ArrayList<String> correosEnviados = new ArrayList<>();
@@ -204,7 +204,7 @@ public class ProcessSyncIT {
     }
 
     @Test
-    public void testProcessAsyncEjercicio2() throws SIGException {
+    public void testProcAsyncEj2() throws SIGException {
         Process p = new ProcessSync();
 
         ArrayList<String> medidas = new ArrayList<>();
@@ -251,7 +251,7 @@ public class ProcessSyncIT {
                     Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             @Override
             public Process.PORTS getCompatiblePortType() {
                 return Process.PORTS.INPUT;

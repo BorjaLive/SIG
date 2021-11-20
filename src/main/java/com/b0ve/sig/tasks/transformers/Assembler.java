@@ -11,7 +11,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Merges the content of fragments received from different inputs and sends the complete message. Roots are not preserved, it can be configured in the constructor.
+ * Merges the content of fragments received from different inputs and sends the
+ * complete message. Roots are not preserved, it can be configured in the
+ * constructor.
+ *
  * @author borja
  */
 public final class Assembler extends AssemblerTemplate {

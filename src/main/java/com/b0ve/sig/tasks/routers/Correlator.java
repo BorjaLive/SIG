@@ -18,7 +18,7 @@ public final class Correlator extends CorrelatorTemplate {
     public Correlator(String expresion) throws SIGException {
         if (expresion == null) {
             this.expresion = null;
-        }else{
+        } else {
             this.expresion = XMLTools.compile(expresion);
         }
     }

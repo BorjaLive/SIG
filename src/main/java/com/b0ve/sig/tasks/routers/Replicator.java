@@ -7,7 +7,9 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ListIterator;
 
 /**
- * Outputs multiples copies of every message received on the input to each output.
+ * Outputs multiples copies of every message received on the input to each
+ * output.
+ *
  * @author borja
  */
 public class Replicator extends Task {
@@ -23,7 +25,7 @@ public class Replicator extends Task {
             Message m = input.retrive();
             for (ListIterator<Buffer> iter = outputs(); iter.hasNext();) {
                 iter.next().push(new Message(m));
-                
+
             }
         }
     }

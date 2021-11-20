@@ -7,6 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Adds a static content to the message
+ *
  * @author borja
  */
 public abstract class EnricherTemplate extends Task {

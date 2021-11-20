@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Divides the content of a message with an XPath expression.
+ *
  * @author borja
  */
 public final class Splitter extends SplitterTemplate {

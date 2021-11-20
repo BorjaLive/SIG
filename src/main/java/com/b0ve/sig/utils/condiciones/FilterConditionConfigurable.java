@@ -4,6 +4,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Configurable class to use with Filter and Distributor Task.
+ *
  * @author borja
  */
 public class FilterConditionConfigurable extends FilterCondition {

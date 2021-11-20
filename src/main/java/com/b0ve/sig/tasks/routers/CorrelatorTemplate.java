@@ -47,11 +47,11 @@ public abstract class CorrelatorTemplate extends Task {
                         }
                     }
                 }
-                
+
                 for (Map.Entry<Message, List<Message>> relation : relations.entrySet()) {
                     Message first = relation.getKey();
                     List<Message> others = relation.getValue();
-                    
+
                     if (others.size() == nInputs() - 1) {
                         input(0).deleteMessage(first);
                         output(0).push(first);

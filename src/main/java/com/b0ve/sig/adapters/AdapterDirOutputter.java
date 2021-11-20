@@ -1,6 +1,5 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -9,7 +8,10 @@ import java.io.IOException;
 import org.w3c.dom.Document;
 
 /**
- * Simple adapter that creates a file for each message received. Directory is specified in the constructor, filename is message id, file content is entire message body as XML.
+ * Simple adapter that creates a file for each message received. Directory is
+ * specified in the constructor, filename is message id, file content is entire
+ * message body as XML.
+ *
  * @author borja
  */
 public class AdapterDirOutputter extends Adapter {
@@ -32,7 +34,7 @@ public class AdapterDirOutputter extends Adapter {
         } catch (IOException ex) {
             handleException(new SIGException("Error creating file in directory", destdir, ex));
         }
-        counter ++;
+        counter++;
         return null;
     }
 

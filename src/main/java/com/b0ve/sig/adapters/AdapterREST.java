@@ -2,30 +2,6 @@ package com.b0ve.sig.adapters;
 
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.json.Json;
-import javax.json.JsonObject;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.ssl.SSLContextBuilder;
 import org.w3c.dom.Document;
 
 /**
@@ -157,8 +133,8 @@ public class AdapterREST extends Adapter {
         } catch (IOException ex) {
             Logger.getLogger(AdapterREST.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
-        
+         */
+
         return null;
     }
 

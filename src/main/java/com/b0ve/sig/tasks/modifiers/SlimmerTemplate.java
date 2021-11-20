@@ -7,6 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Base Slimmer. Removes a static content from messages.
+ *
  * @author borja
  */
 public abstract class SlimmerTemplate extends Task {
@@ -28,8 +29,9 @@ public abstract class SlimmerTemplate extends Task {
 
     /**
      * Slims the content of the message
+     *
      * @param m
-     * @throws SIGException 
+     * @throws SIGException
      */
     protected abstract void slim(Message m) throws SIGException;
 }

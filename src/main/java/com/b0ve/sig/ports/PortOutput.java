@@ -13,7 +13,8 @@ public class PortOutput extends Port {
 
     /**
      * Output ports cannot send messages to the process.
-     * @param doc 
+     *
+     * @param doc
      */
     @Override
     public void sendProcess(Document doc) {
@@ -22,8 +23,9 @@ public class PortOutput extends Port {
 
     /**
      * Sends a message to the adapter so it sends it to the app.
+     *
      * @param m
-     * @throws SIGException 
+     * @throws SIGException
      */
     @Override
     protected void sendApp(Message m) throws SIGException {

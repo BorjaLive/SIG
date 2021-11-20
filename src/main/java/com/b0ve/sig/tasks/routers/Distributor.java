@@ -6,6 +6,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Routes messages based on an array of Checkeable conditions.
+ *
  * @author borja
  */
 public class Distributor extends DistributorTemplate {
@@ -19,7 +20,8 @@ public class Distributor extends DistributorTemplate {
 
     @Override
     protected int check(Message m) throws SIGException {
-        int outPin = -1, i = 0;
+        int outPin = -1;
+        int i = 0;
         while (outPin == -1 && i < conditions.length) {
             if (conditions[i].checkCondition(m)) {
                 outPin = i;

@@ -7,6 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Forwards messages to different outputs based on conditions.
+ *
  * @author borja
  */
 public abstract class DistributorTemplate extends Task {

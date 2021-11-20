@@ -9,8 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.UUID;
 import org.w3c.dom.Document;
 
 /**
@@ -30,7 +29,7 @@ public abstract class AggregatorTemplate extends Task {
             //Bloquear las nuevas entradas
             lockPushes();
             try {
-                Map<Long, List<Message>> fragments = new HashMap<>();
+                Map<UUID, List<Message>> fragments = new HashMap<>();
                 Buffer output = output(0);
                 Buffer input = input(0);
                 for (Iterator<Message> iterator = input.getIterator(); iterator.hasNext();) {
@@ -42,7 +41,7 @@ public abstract class AggregatorTemplate extends Task {
                     }
                     list.add(m);
                 }
-                for (Map.Entry<Long, List<Message>> fragment : fragments.entrySet()) {
+                for (Map.Entry<UUID, List<Message>> fragment : fragments.entrySet()) {
                     List<Message> messages = fragment.getValue();
                     if (messages.get(0).getFragmentSize() == messages.size()) {
                         for (Message mensaje : messages) {
@@ -54,14 +53,13 @@ public abstract class AggregatorTemplate extends Task {
                         output.push(mensaje);
                     }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (SIGException ex) {
+                handleException(ex);
             } finally {
                 //Desbloquear las nuevas entradas
                 unlockPushes();
             }
         } catch (InterruptedException ex) {
-            ex.printStackTrace();
         }
     }
 

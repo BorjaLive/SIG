@@ -6,7 +6,7 @@
 
 ## Instalación
 
-```
+```xml
 <dependency>
   <groupId>com.b0ve</groupId>
   <artifactId>sig</artifactId>

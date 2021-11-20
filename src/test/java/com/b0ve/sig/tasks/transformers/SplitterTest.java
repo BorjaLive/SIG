@@ -20,7 +20,7 @@ public class SplitterTest {
 
     @Test
     public void testSplitter1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<libros>\n"
+        Message m1 = newMessage("<libros>\n"
                 + "	<libro>\n"
                 + "		<titulo>Robotica Vision y Control</titulo>\n"
                 + "		<precio>70</precio>\n"
@@ -51,7 +51,7 @@ public class SplitterTest {
 
     @Test
     public void testSplitter2() throws SIGException {
-        Message m1 = newMessage(0, 0, "<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c></b></a>");
+        Message m1 = newMessage("<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c></b></a>");
         Splitter s1 = new Splitter("/a/b");
         Buffer in = new Buffer(null, null);
         s1.addInput(in);

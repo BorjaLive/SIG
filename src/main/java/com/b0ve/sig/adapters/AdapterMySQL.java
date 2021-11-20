@@ -1,6 +1,5 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.JDBCUtil;
 import com.b0ve.sig.utils.Process.PORTS;
 import com.b0ve.sig.utils.XMLTools;
@@ -15,14 +14,13 @@ import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 
 /**
- * Adapter that executes a query in MySQL server. The response is returned as response, selected column names are not changed.
- * FORMAT: 
+ * Adapter that executes a query in MySQL server. The response is returned as
+ * response, selected column names are not changed. FORMAT:
  * <pre>
  * {@code
  * <sql> QUERY </sql>
  * }
- * </pre>
- * RESPONSE:
+ * </pre> RESPONSE:
  * <pre>
  * {@code
  * <Results>
@@ -32,6 +30,7 @@ import org.w3c.dom.Document;
  * </Results>
  * }
  * </pre>
+ *
  * @author borja
  */
 public class AdapterMySQL extends Adapter {
@@ -53,7 +52,7 @@ public class AdapterMySQL extends Adapter {
     @Override
     public Document sendApp(Document doc) {
         try {
-            String sql = XMLTools.evalString(doc, "/sql");
+            String sql = XMLTools.evalString(doc, queryXPath);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             Document res = JDBCUtil.toDocument(rs);

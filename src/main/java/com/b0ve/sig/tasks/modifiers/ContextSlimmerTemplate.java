@@ -6,7 +6,9 @@ import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
- * Slims content off of messages, slim configuration is provided by a parallel input.
+ * Slims content off of messages, slim configuration is provided by a parallel
+ * input.
+ *
  * @author borja
  */
 public abstract class ContextSlimmerTemplate extends Task {

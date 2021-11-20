@@ -1,6 +1,5 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
 import org.w3c.dom.Document;

@@ -6,6 +6,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Merges the body of two messages
+ *
  * @author borja
  */
 public class ContextEnricher extends ContextEnricherTemplate {

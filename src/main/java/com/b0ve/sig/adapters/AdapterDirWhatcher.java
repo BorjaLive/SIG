@@ -8,7 +8,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 /**
- * Simple adapter that sends a message to the process for each file that it finds in the directory specified in the constructor. The file is deleted once its readden.
+ * Simple adapter that sends a message to the process for each file that it
+ * finds in the directory specified in the constructor. The file is deleted once
+ * its readden.
+ *
  * @author borja
  */
 public class AdapterDirWhatcher extends Adapter {

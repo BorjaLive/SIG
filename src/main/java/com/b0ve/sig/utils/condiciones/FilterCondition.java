@@ -7,6 +7,7 @@ import javax.xml.xpath.XPathExpression;
 
 /**
  * Simple base class to use in Filter and Distributor Task.
+ *
  * @author borja
  */
 public abstract class FilterCondition implements Checkeable {

@@ -5,8 +5,9 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.Scanner;
 
 /**
- * Adaptor that introduces messages with the text from the command line.
- * The text is unchanged
+ * Adaptor that introduces messages with the text from the command line. The
+ * text is unchanged
+ *
  * @author borja
  */
 public class AdapterConsole extends Adapter {

@@ -1,24 +1,23 @@
 package com.b0ve.sig.flow;
 
 import com.b0ve.sig.utils.XMLTools;
+import static com.b0ve.sig.utils.XMLTools.*;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.Iterator;
 import java.util.Stack;
+import java.util.UUID;
+import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import static com.b0ve.sig.utils.XMLTools.*;
-import javax.xml.xpath.XPathExpression;
 
 public final class Message {
 
-    private static int counter = 0;
-
-    private final long ID;
-    private long correlationID;
+    private final UUID ID;
+    private UUID correlationID;
     private final Stack<FragmentInfo> fragmentInfo;
     private Document body;
 
-    private Message(long ID, long correlationID, Document body) throws SIGException {
+    private Message(UUID ID, UUID correlationID, Document body) throws SIGException {
         this.ID = ID;
         this.correlationID = correlationID;
         this.body = XMLTools.clone(body);
@@ -26,8 +25,7 @@ public final class Message {
     }
 
     public Message(Document body) throws SIGException {
-        this(counter, counter, body);
-        counter++;
+        this(UUID.randomUUID(), UUID.randomUUID(), body);
     }
 
     public Message(String body) throws SIGException {
@@ -35,7 +33,7 @@ public final class Message {
     }
 
     public Message(Message m) throws SIGException {
-        this(counter++, m.correlationID, m.body);
+        this(UUID.randomUUID(), m.correlationID, m.body);
         addFragmentInfo(m.getFragmentInfoStack());
     }
 
@@ -44,7 +42,7 @@ public final class Message {
      *
      * @return
      */
-    public long getID() {
+    public UUID getID() {
         return ID;
     }
 
@@ -53,7 +51,7 @@ public final class Message {
      *
      * @return
      */
-    public long getCorrelationID() {
+    public UUID getCorrelationID() {
         return correlationID;
     }
 
@@ -90,8 +88,8 @@ public final class Message {
      *
      * @return
      */
-    public long getFragmentID() {
-        return fragmentInfo.isEmpty() ? -1 : fragmentInfo.peek().getFragmentID();
+    public UUID getFragmentID() {
+        return fragmentInfo.isEmpty() ? null : fragmentInfo.peek().getFragmentID();
     }
 
     /**
@@ -127,7 +125,7 @@ public final class Message {
      *
      * @param correlationID
      */
-    public void setCorrelationID(long correlationID) {
+    public void setCorrelationID(UUID correlationID) {
         this.correlationID = correlationID;
     }
 
@@ -269,11 +267,22 @@ public final class Message {
      * @param body XML String
      * @return
      */
-    public static Message newMessage(long id, int correlationID, String body) {
+    public static Message newMessage(UUID id, UUID correlationID, String body) {
         try {
             return new Message(id, correlationID, parse(body));
         } catch (SIGException ex) {
             return null;
         }
+    }
+
+    /**
+     * Creates a new message with custom ID and Correlation ID. For debugging
+     * and testing purposes.
+     *
+     * @param body XML String
+     * @return
+     */
+    public static Message newMessage(String body) {
+        return newMessage(UUID.randomUUID(), UUID.randomUUID(), body);
     }
 }

@@ -7,6 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Adds content to messages based on other messages provided by a parallel input
+ *
  * @author borja
  */
 public abstract class ContextEnricherTemplate extends Task {

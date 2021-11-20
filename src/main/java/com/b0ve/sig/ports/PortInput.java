@@ -13,7 +13,8 @@ public class PortInput extends Port {
 
     /**
      * Sends a message from the process to the process
-     * @param doc 
+     *
+     * @param doc
      */
     public void sendProcess(Document doc) {
         try {
@@ -25,7 +26,8 @@ public class PortInput extends Port {
 
     /**
      * Input ports cannot send messages to the adapter
-     * @param m 
+     *
+     * @param m
      */
     @Override
     protected void sendApp(Message m) {

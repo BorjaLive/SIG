@@ -10,26 +10,30 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Base tasks to implement all other taks.
+ *
  * @author borja
  */
 abstract public class Task implements Runnable, Notifiable {
 
     protected Process process;
-    private final List<Buffer> inputs, outputs;
+    private final List<Buffer> inputs;
+    private final List<Buffer> outputs;
     private final Semaphore s;
-    protected final int maxInputs, maxOutputs;
+    protected final int maxInputs;
+    protected final int maxOutputs;
 
     public Task() {
         this(0, 0);
     }
 
     /**
-     * If a param equals -1, no buffers are ollowed to connect.
-     * If it equals 0m there is no limitation to the number of buffers connected, can be even 0.
-     * Any other number is treated as a exact match.
-     * For more precise validation of connections, please refer to the validate method.
-     * @param maxEntradas 
-     * @param maxSalidas 
+     * If a param equals -1, no buffers are ollowed to connect. If it equals 0m
+     * there is no limitation to the number of buffers connected, can be even 0.
+     * Any other number is treated as a exact match. For more precise validation
+     * of connections, please refer to the validate method.
+     *
+     * @param maxEntradas
+     * @param maxSalidas
      */
     public Task(int maxEntradas, int maxSalidas) {
         this.inputs = new ArrayList<>();
@@ -41,7 +45,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Ads a new input buffer to the task
-     * @param input 
+     *
+     * @param input
      */
     public void addInput(Buffer input) {
         this.inputs.add(input);
@@ -49,7 +54,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Ads a new output buffer to the task
-     * @param output 
+     *
+     * @param output
      */
     public void addOutput(Buffer output) {
         this.outputs.add(output);
@@ -64,7 +70,8 @@ abstract public class Task implements Runnable, Notifiable {
     }
 
     /**
-     * Execute the process of the app in a new thread that waits for new messages on the inputs.
+     * Execute the process of the app in a new thread that waits for new
+     * messages on the inputs.
      */
     @Override
     public void run() {
@@ -85,15 +92,16 @@ abstract public class Task implements Runnable, Notifiable {
     }
 
     /**
-     * Method that does the work of the task.
-     * Reads inputs, writes to outputs.
-     * @throws SIGException 
+     * Method that does the work of the task. Reads inputs, writes to outputs.
+     *
+     * @throws SIGException
      */
     public abstract void process() throws SIGException;
 
     /**
      * Validates the configuration of the task
-     * @throws SIGException 
+     *
+     * @throws SIGException
      */
     public void validate() throws SIGException {
         if (maxInputs == -1 && !inputs.isEmpty()) {
@@ -112,6 +120,7 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Returns a input buffer by number. Throws exception if it does not exist.
+     *
      * @param n
      * @return
      * @throws SIGException
@@ -122,18 +131,20 @@ abstract public class Task implements Runnable, Notifiable {
         }
         return inputs.get(n);
     }
-    
+
     /**
      * Returns a ListIterator for the list of inputs
-     * @return 
+     *
+     * @return
      */
-    public ListIterator<Buffer> inputs(){
+    public ListIterator<Buffer> inputs() {
         return inputs.listIterator();
     }
 
     /**
      * Returns true if the task has at least one input
-     * @return 
+     *
+     * @return
      */
     protected final boolean hasInputs() {
         return !inputs.isEmpty();
@@ -141,7 +152,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Returns the number of inputs of the task
-     * @return 
+     *
+     * @return
      */
     protected final int nInputs() {
         return inputs.size();
@@ -149,9 +161,10 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Returns a output buffer by number. Throws exception if it does not exist.
+     *
      * @param n
      * @return
-     * @throws SIGException 
+     * @throws SIGException
      */
     protected final Buffer output(int n) throws SIGException {
         if (outputs.size() <= n) {
@@ -159,18 +172,20 @@ abstract public class Task implements Runnable, Notifiable {
         }
         return outputs.get(n);
     }
-    
+
     /**
      * Returns a list operator for the list of outputs
-     * @return 
+     *
+     * @return
      */
-    public ListIterator<Buffer> outputs(){
+    public ListIterator<Buffer> outputs() {
         return outputs.listIterator();
     }
 
     /**
      * Returns true if the task has at least one output
-     * @return 
+     *
+     * @return
      */
     protected final boolean hasOutputs() {
         return !outputs.isEmpty();
@@ -178,7 +193,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Returns the number of outputs of the task
-     * @return 
+     *
+     * @return
      */
     protected final int nOutputs() {
         return outputs.size();
@@ -186,7 +202,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Stalishes the process to whoom the tasks belongs
-     * @param p 
+     *
+     * @param p
      */
     public final void setProcess(Process p) {
         process = p;
@@ -194,6 +211,7 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Locks all the inputs
+     *
      * @throws java.lang.InterruptedException
      */
     protected void lockPushes() throws InterruptedException {
@@ -213,7 +231,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Sends a debugg message to the process
-     * @param log 
+     *
+     * @param log
      */
     protected void debugLog(String log) {
         if (process != null) {
@@ -223,7 +242,8 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Sends an exception to the process exception handler
-     * @param exception 
+     *
+     * @param exception
      */
     public void handleException(SIGException exception) {
         if (process != null) {
@@ -233,8 +253,9 @@ abstract public class Task implements Runnable, Notifiable {
 
     /**
      * Syntactic sugar for the connect method of process
+     *
      * @param tarea
-     * @throws SIGException 
+     * @throws SIGException
      */
     public void connect(Task tarea) throws SIGException {
         if (process == null) {

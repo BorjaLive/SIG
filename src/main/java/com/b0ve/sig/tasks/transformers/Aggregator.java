@@ -11,7 +11,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Collects fragments from a single input and composes the original message. Root can be configured.
+ * Collects fragments from a single input and composes the original message.
+ * Root can be configured.
+ *
  * @author borja
  */
 public final class Aggregator extends AggregatorTemplate {

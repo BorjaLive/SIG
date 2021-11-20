@@ -1,18 +1,15 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.HashSet;
 import java.util.Set;
-import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
 
 /**
- * Memmory (HashSet) for the process, 
- * FORMAT:
+ * Memmory (HashSet) for the process, FORMAT:
  * <pre>
  * {@code
  * <query>
@@ -20,13 +17,14 @@ import org.w3c.dom.Document;
  *  <value> VALUE TO STORE OR DELETE </value>
  * </query>
  * }
- * </pre>
- * RESPONSE: True if the action is create and the value already exists or the action is delete and the value does not exist
+ * </pre> RESPONSE: True if the action is create and the value already exists or
+ * the action is delete and the value does not exist
  * <pre>
  * {@code
  * <response> {true | false} </response>
  * }
  * </pre>
+ *
  * @author borja
  */
 public class AdapterSET extends Adapter {
@@ -57,7 +55,7 @@ public class AdapterSET extends Adapter {
                 if (!result) {
                     set.remove(value);
                 }
-            }else{
+            } else {
                 throw new SIGException("SET doesnt recognize the action", action, null);
             }
             System.out.println("Me preguntan por: " + action + " valor: " + value + " le digo que " + result);

@@ -20,7 +20,7 @@ public class ContextSlimmerTest {
 
     @Test
     public void testContextSlimmer1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<cambios>\n"
+        Message m1 = newMessage("<cambios>\n"
                 + "	<cambio>\n"
                 + "		<tipo>crear</tipo>\n"
                 + "		<datos>\n"
@@ -53,7 +53,7 @@ public class ContextSlimmerTest {
                 + "		</datos>\n"
                 + "	</cambio>\n"
                 + "</cambios>");
-        Message m2 = newMessage(1, 1, "<list><item>/cambios/cambio[tipo='eliminar']/datos/nombre</item><item>/cambios/cambio[3]</item></list>");
+        Message m2 = newMessage("<list><item>/cambios/cambio[tipo='eliminar']/datos/nombre</item><item>/cambios/cambio[3]</item></list>");
         ContextSlimmer cSlimmer = new ContextSlimmer();
         Buffer in1 = new Buffer(null, null);
         Buffer in2 = new Buffer(null, null);

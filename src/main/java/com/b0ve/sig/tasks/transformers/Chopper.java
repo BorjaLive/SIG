@@ -8,7 +8,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 /**
- * Dives the content of a message with an XPath expressiuon and outputs individual messages to an output each.
+ * Dives the content of a message with an XPath expressiuon and outputs
+ * individual messages to an output each.
+ *
  * @author borja
  */
 public final class Chopper extends ChopperTemplate {

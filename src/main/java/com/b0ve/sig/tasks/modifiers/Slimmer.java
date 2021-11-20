@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Removes all the nodes selected by an array of XPath expressions
+ *
  * @author borja
  */
 public class Slimmer extends SlimmerTemplate {

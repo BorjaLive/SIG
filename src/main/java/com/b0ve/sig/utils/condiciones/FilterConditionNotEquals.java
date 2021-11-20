@@ -3,7 +3,9 @@ package com.b0ve.sig.utils.condiciones;
 import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
- * Simple class to use with Filter and Distributor Tasks. Value must be different, if it is not the message is droped.
+ * Simple class to use with Filter and Distributor Tasks. Value must be
+ * different, if it is not the message is droped.
+ *
  * @author borja
  */
 @Deprecated

@@ -1,6 +1,5 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process.PORTS;
 import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -13,8 +12,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 /**
- * Adapter that executes a list of queries in a MySQL server. Response is not returned.
- * FORMAT:
+ * Adapter that executes a list of queries in a MySQL server. Response is not
+ * returned. FORMAT:
  * <pre>
  * {@code
  * <queries>
@@ -23,6 +22,7 @@ import org.w3c.dom.NodeList;
  * <queries>
  * }
  * </pre>
+ *
  * @author borja
  */
 public class AdapterMySQLmultyQuery extends Adapter {

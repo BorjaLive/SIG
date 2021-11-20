@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 /**
  * Outputs messages received from multiple inpuits to the one output.
+ *
  * @author borja
  */
 public class Merger extends Task {
@@ -23,7 +24,7 @@ public class Merger extends Task {
             while (!input.empty()) {
                 output.push(input.retrive());
             }
-            
+
         }
     }
 

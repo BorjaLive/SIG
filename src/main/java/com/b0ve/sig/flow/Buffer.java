@@ -10,7 +10,8 @@ public final class Buffer {
 
     private final Queue<Message> queue;
     private Queue<Message> tempQueue;
-    private final Notifiable in, out;
+    private final Notifiable in;
+    private final Notifiable out;
     private final Semaphore s;
 
     public Buffer(Notifiable in, Notifiable out) {
@@ -24,12 +25,13 @@ public final class Buffer {
     public synchronized boolean empty() {
         return this.queue.isEmpty();
     }
-    
-    public synchronized int size(){
-        if(tempQueue == null)
+
+    public synchronized int size() {
+        if (tempQueue == null) {
             return queue.size();
-        else
-            return queue.size()+tempQueue.size();
+        } else {
+            return queue.size() + tempQueue.size();
+        }
     }
 
     /**

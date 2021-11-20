@@ -6,6 +6,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Applies a Checkeable condition to messages.
+ *
  * @author borja
  */
 public class Filter extends FilterTemplate {

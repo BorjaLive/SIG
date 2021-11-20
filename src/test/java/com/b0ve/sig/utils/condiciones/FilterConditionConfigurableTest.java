@@ -2,8 +2,8 @@ package com.b0ve.sig.utils.condiciones;
 
 import static com.b0ve.sig.utils.condiciones.FilterConditionConfigurable.CONDITIONS.*;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class FilterConditionConfigurableTest {
 

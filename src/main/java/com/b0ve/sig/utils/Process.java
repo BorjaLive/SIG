@@ -24,10 +24,10 @@ import com.b0ve.sig.tasks.transformers.Chopper;
 import com.b0ve.sig.tasks.transformers.Splitter;
 import com.b0ve.sig.tasks.transformers.Translator;
 import com.b0ve.sig.utils.condiciones.Checkeable;
-import com.b0ve.sig.utils.exceptions.SIGException;
 import com.b0ve.sig.utils.exceptions.DefaultExceptionHandler;
 import com.b0ve.sig.utils.exceptions.ExceptionHandleable;
 import com.b0ve.sig.utils.exceptions.LogSink;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +102,7 @@ public abstract class Process {
      *
      * @param tipo
      * @return Task added
+     * @throws com.b0ve.sig.utils.exceptions.SIGException
      */
     public Task createTask(TASKS tipo) throws SIGException {
         return createTask(tipo, null);
@@ -113,6 +114,7 @@ public abstract class Process {
      * @param type
      * @param configuration
      * @return Task added
+     * @throws com.b0ve.sig.utils.exceptions.SIGException
      */
     public Task createTask(TASKS type, Object configuration) throws SIGException {
         Task task;
@@ -167,6 +169,7 @@ public abstract class Process {
                 break;
             default:
                 task = null;
+                break;
         }
         if (task != null) {
             addTask(task);

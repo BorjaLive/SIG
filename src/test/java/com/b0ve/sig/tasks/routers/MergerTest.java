@@ -9,6 +9,7 @@ import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.flow.Message;
 import static com.b0ve.sig.flow.Message.newMessage;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import java.util.UUID;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -20,9 +21,11 @@ public class MergerTest {
 
     @Test
     public void testMerger1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<cid>0</cid>");
-        Message m2 = newMessage(1, 1, "<cid>1</cid>");
-        Message m3 = newMessage(2, 2, "<cid>2</cid>");
+        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID();
+
+        Message m1 = newMessage(id0, id0, "<cid>0</cid>");
+        Message m2 = newMessage(id1, id1, "<cid>1</cid>");
+        Message m3 = newMessage(id2, id2, "<cid>2</cid>");
 
         Merger merger = new Merger();
         Buffer in1 = new Buffer(null, null);
@@ -38,9 +41,9 @@ public class MergerTest {
 
         merger.process();
 
-        assertEquals(out1.retrive().getID(), 0);
-        assertEquals(out1.retrive().getID(), 2);
-        assertEquals(out1.retrive().getID(), 1);
+        assertEquals(out1.retrive().getID(), id0);
+        assertEquals(out1.retrive().getID(), id2);
+        assertEquals(out1.retrive().getID(), id1);
         assertNull(out1.retrive());
     }
 

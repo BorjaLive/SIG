@@ -13,10 +13,11 @@ public class JDBCUtil {
 
     /**
      * Creates a W3C Document from ResultSet given by SQL DB.
+     *
      * @param rs
      * @return
      * @throws ParserConfigurationException
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static Document toDocument(ResultSet rs) throws ParserConfigurationException, SQLException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

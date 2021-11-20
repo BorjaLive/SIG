@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 
 /**
  * Ports are tasks that interact with adapters
+ *
  * @author borja
  */
 public abstract class Port extends Task {
@@ -25,7 +26,8 @@ public abstract class Port extends Task {
     /**
      * Reads messages from inputs, if it has them, and sends them to the app.
      * Each message is sent in an independent thread.
-     * @throws SIGException 
+     *
+     * @throws SIGException
      */
     @Override
     public void process() throws SIGException {
@@ -53,21 +55,25 @@ public abstract class Port extends Task {
 
     /**
      * Sends a message to the app. ot all ports are allowed to do this.
+     *
      * @param m
-     * @throws SIGException 
+     * @throws SIGException
      */
     protected abstract void sendApp(Message m) throws SIGException;
-    
+
     /**
-     * Sends a message from the adapter to the process. Not all ports are allowed to do this.
+     * Sends a message from the adapter to the process. Not all ports are
+     * allowed to do this.
+     *
      * @param doc
-     * @throws SIGException 
+     * @throws SIGException
      */
     public abstract void sendProcess(Document doc) throws SIGException;
 
     /**
      * Returns the adapter that is connected to this port.
-     * @return 
+     *
+     * @return
      */
     public Adapter getAdapter() {
         return adapter;

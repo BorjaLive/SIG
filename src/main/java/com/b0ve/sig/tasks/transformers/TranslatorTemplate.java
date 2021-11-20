@@ -6,7 +6,9 @@ import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
- * Outputs a message with the output of the XSLTransformation performed with the body of received message
+ * Outputs a message with the output of the XSLTransformation performed with the
+ * body of received message
+ *
  * @author borja
  */
 public abstract class TranslatorTemplate extends Task {

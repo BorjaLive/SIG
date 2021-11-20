@@ -1,9 +1,8 @@
 package com.b0ve.sig.utils.exceptions;
 
-import com.b0ve.sig.utils.exceptions.SIGException;
-
 /**
  * Simple ExceptionHandle that outputs the exceptions to stderr
+ *
  * @author borja
  */
 public class DefaultExceptionHandler implements ExceptionHandleable {
@@ -22,7 +21,8 @@ public class DefaultExceptionHandler implements ExceptionHandleable {
 
     /**
      * Returns singleton reference to the handler
-     * @return 
+     *
+     * @return
      */
     public static ExceptionHandleable getHandler() {
         return defaultExceptionHandler;

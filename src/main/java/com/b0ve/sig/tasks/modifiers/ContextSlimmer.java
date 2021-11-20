@@ -8,8 +8,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 /**
- * Removes all the nodes selected by a list of XPath expressions.
- * FORMAT:
+ * Removes all the nodes selected by a list of XPath expressions. FORMAT:
  * <pre>
  * {@code
  * <list>
@@ -19,22 +18,21 @@ import org.w3c.dom.NodeList;
  * </list>
  * }
  * </pre>
+ *
  * @author borja
  */
 public class ContextSlimmer extends ContextSlimmerTemplate {
 
     XPathExpression divisor;
-    
+
     public ContextSlimmer(String divisor) throws SIGException {
         this.divisor = XMLTools.compile(divisor);
     }
-    
+
     public ContextSlimmer() throws SIGException {
         this("/list/item");
     }
 
-    
-    
     @Override
     protected void slim(Message m, Message condition) throws SIGException {
         Document doc = m.getBody();

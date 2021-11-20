@@ -7,6 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Sets the correlation ID messages
+ *
  * @author borja
  */
 public abstract class CorrelationIDSetterTemplate extends Task {

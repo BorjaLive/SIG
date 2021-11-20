@@ -1,6 +1,5 @@
 package com.b0ve.sig.adapters;
 
-import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.Process.PORTS;
 import com.b0ve.sig.utils.XMLTools;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -18,7 +17,10 @@ import org.json.XML;
 import org.w3c.dom.Document;
 
 /**
- * Adapter that makes request to a Web API. Endpoint is specified in constructor, the body of the message is sent in json and response is received in json but transformed to xml before it is returned in a message.
+ * Adapter that makes request to a Web API. Endpoint is specified in
+ * constructor, the body of the message is sent in json and response is received
+ * in json but transformed to xml before it is returned in a message.
+ *
  * @author borja
  */
 public class AdapterWebAPI extends Adapter {

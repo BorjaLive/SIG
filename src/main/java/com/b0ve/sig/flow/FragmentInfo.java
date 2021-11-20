@@ -1,18 +1,18 @@
 package com.b0ve.sig.flow;
 
+import java.util.UUID;
+
 public class FragmentInfo {
 
-    private final long fragmentID;
+    private final UUID fragmentID;
     private final int fragmentSize;
 
-    private static long contador = 0;
-
-    public FragmentInfo(long fragmentID, int fragmentSize) {
+    public FragmentInfo(UUID fragmentID, int fragmentSize) {
         this.fragmentID = fragmentID;
         this.fragmentSize = fragmentSize;
     }
 
-    public long getFragmentID() {
+    public UUID getFragmentID() {
         return fragmentID;
     }
 
@@ -23,10 +23,6 @@ public class FragmentInfo {
     @Override
     public String toString() {
         return "FragmentInfo{" + "ID=" + fragmentID + ", Size=" + fragmentSize + '}';
-    }
-
-    public static long uniqueID() {
-        return contador++;
     }
 
 }

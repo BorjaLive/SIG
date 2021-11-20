@@ -8,6 +8,7 @@ package com.b0ve.sig.tasks.routers;
 import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.flow.Message;
 import static com.b0ve.sig.flow.Message.newMessage;
+import java.util.UUID;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -19,12 +20,14 @@ public class CorrelatorTest {
 
     @Test
     public void testCorrelator1() throws Exception {
-        Message m11 = newMessage(0, 0, "<m>11</m>");
-        Message m12 = newMessage(1, 1, "<m>12</m>");
-        Message m13 = newMessage(2, 2, "<m>13</m>"),
-                m21 = newMessage(3, 2, "<m>21</m>"),
-                m22 = newMessage(4, 1, "<m>22</m>"),
-                m23 = newMessage(5, 0, "<m>23</m>");
+        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID();
+
+        Message m11 = newMessage(UUID.randomUUID(), id0, "<m>11</m>");
+        Message m12 = newMessage(UUID.randomUUID(), id1, "<m>12</m>");
+        Message m13 = newMessage(UUID.randomUUID(), id2, "<m>13</m>"),
+                m21 = newMessage(UUID.randomUUID(), id2, "<m>21</m>"),
+                m22 = newMessage(UUID.randomUUID(), id1, "<m>22</m>"),
+                m23 = newMessage(UUID.randomUUID(), id0, "<m>23</m>");
         Correlator correlator = new Correlator();
         Buffer in1 = new Buffer(null, null);
         Buffer in2 = new Buffer(null, null);
@@ -52,13 +55,13 @@ public class CorrelatorTest {
     @Test
     public void testCorrelator2() throws Exception {
         Correlator correlator = new Correlator("/cid");
-        Message m11 = newMessage(0, 0, "<cid>0</cid>");
-        Message m12 = newMessage(1, 1, "<cid>1</cid>");
+        Message m11 = newMessage("<cid>0</cid>");
+        Message m12 = newMessage("<cid>1</cid>");
 
-        Message m13 = newMessage(2, 2, "<cid>2</cid>"),
-                m21 = newMessage(3, 3, "<cid>2</cid>"),
-                m22 = newMessage(4, 4, "<cid>1</cid>"),
-                m23 = newMessage(5, 5, "<cid>0</cid>");
+        Message m13 = newMessage("<cid>2</cid>"),
+                m21 = newMessage("<cid>2</cid>"),
+                m22 = newMessage("<cid>1</cid>"),
+                m23 = newMessage("<cid>0</cid>");
 
         Buffer in1 = new Buffer(null, null);
         Buffer in2 = new Buffer(null, null);

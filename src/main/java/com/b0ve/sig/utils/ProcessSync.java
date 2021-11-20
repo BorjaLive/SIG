@@ -9,12 +9,11 @@ import java.util.ListIterator;
 public class ProcessSync extends Process {
 
     private Thread ejecucion;
-    
-    
+
     public ProcessSync(boolean debug) {
         super(debug);
     }
-    
+
     public ProcessSync() {
         this(false);
     }

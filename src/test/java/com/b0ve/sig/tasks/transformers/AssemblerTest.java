@@ -20,7 +20,7 @@ public class AssemblerTest {
 
     @Test
     public void testAssembler1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<libros>\n"
+        Message m1 = newMessage("<libros>\n"
                 + "	<libro>\n"
                 + "		<titulo>Robotica Vision y Control</titulo>\n"
                 + "		<precio>70</precio>\n"
@@ -67,7 +67,7 @@ public class AssemblerTest {
 
     @Test
     public void testAssembler2() throws SIGException {
-        Message m1 = newMessage(0, 0, "<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c><c>b2c2</c></b></a>");
+        Message m1 = newMessage("<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c><c>b2c2</c></b></a>");
         Chopper c1 = new Chopper("/a/b");
         Buffer in = new Buffer(null, null);
         c1.addInput(in);

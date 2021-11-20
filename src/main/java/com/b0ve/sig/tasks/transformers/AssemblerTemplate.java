@@ -7,8 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.UUID;
 import org.w3c.dom.Document;
 
 /**
@@ -30,7 +29,7 @@ public abstract class AssemblerTemplate extends Task {
             lockPushes();
 
             try {
-                Map<Long, Message[]> fragments = new HashMap<>();
+                Map<UUID, Message[]> fragments = new HashMap<>();
                 Buffer salida = output(0);
                 for (int i = 0; i < nInputs(); i++) {
                     for (Iterator<Message> iterator = input(i).getIterator(); iterator.hasNext();) {
@@ -43,7 +42,7 @@ public abstract class AssemblerTemplate extends Task {
                         list[i] = m;
                     }
                 }
-                for (Map.Entry<Long, Message[]> fragment : fragments.entrySet()) {
+                for (Map.Entry<UUID, Message[]> fragment : fragments.entrySet()) {
                     Message[] messages = fragment.getValue();
                     boolean complete = true;
                     int i = 0;
@@ -61,14 +60,13 @@ public abstract class AssemblerTemplate extends Task {
                         salida.push(new Message(join(messages)));
                     }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (SIGException ex) {
+                handleException(ex);
             } finally {
                 //Desbloquear las nuevas entradas
                 unlockPushes();
             }
         } catch (InterruptedException ex) {
-            ex.printStackTrace();
         }
     }
 

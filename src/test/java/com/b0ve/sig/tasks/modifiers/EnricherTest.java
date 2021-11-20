@@ -20,7 +20,7 @@ public class EnricherTest {
 
     @Test
     public void testEnricher1() throws SIGException {
-        Message m = newMessage(0, 0, "<pelicula><titulo>Crimen Ferpecto</titulo></pelicula>");
+        Message m = newMessage("<pelicula><titulo>Crimen Ferpecto</titulo></pelicula>");
         Enricher enricher = new Enricher("<pelicula><precio>10.5</precio></pelicula>");
         Buffer in = new Buffer(null, null);
         enricher.addInput(in);

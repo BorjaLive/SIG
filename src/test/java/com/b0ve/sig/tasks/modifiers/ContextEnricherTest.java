@@ -24,8 +24,8 @@ public class ContextEnricherTest {
 
     @Test
     public void testContextEnricher1() throws ParserConfigurationException, XPathExpressionException, SAXException, IOException, SIGException {
-        Message m1 = newMessage(0, 0, "<pelicula><titulo>Crimen Ferpecto</titulo></pelicula>");
-        Message m2 = newMessage(0, 0, "<pelicula><precio>10.5</precio></pelicula>");
+        Message m1 = newMessage("<pelicula><titulo>Crimen Ferpecto</titulo></pelicula>");
+        Message m2 = newMessage("<pelicula><precio>10.5</precio></pelicula>");
 
         ContextEnricher enricher = new ContextEnricher();
         Buffer in1 = new Buffer(null, null);

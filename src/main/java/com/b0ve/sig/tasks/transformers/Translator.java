@@ -4,7 +4,9 @@ import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
- * Executes an XSLTransformation passed in the constructor to the body of messages.
+ * Executes an XSLTransformation passed in the constructor to the body of
+ * messages.
+ *
  * @author borja
  */
 public final class Translator extends TranslatorTemplate {

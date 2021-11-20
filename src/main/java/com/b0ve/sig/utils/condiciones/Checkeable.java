@@ -5,6 +5,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Requirement for a class to be used with Filter and Distributor tasks.
+ *
  * @author borja
  */
 public interface Checkeable {

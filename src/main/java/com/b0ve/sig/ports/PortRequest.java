@@ -12,8 +12,10 @@ public class PortRequest extends Port {
     }
 
     /**
-     * Request ports cannot send messages directly to the process, only responses.
-     * @param doc 
+     * Request ports cannot send messages directly to the process, only
+     * responses.
+     *
+     * @param doc
      */
     @Override
     public void sendProcess(Document doc) {
@@ -21,9 +23,11 @@ public class PortRequest extends Port {
     }
 
     /**
-     * If the app responds the port will create a message wit hthe same correlation ID.
+     * If the app responds the port will create a message wit hthe same
+     * correlation ID.
+     *
      * @param m
-     * @throws SIGException 
+     * @throws SIGException
      */
     @Override
     protected void sendApp(Message m) throws SIGException {

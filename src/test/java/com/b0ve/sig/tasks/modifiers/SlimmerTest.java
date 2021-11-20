@@ -19,7 +19,7 @@ public class SlimmerTest {
 
     @Test
     public void testSlimmer1() throws Exception {
-        Message m1 = newMessage(0, 0, "<cambios>\n"
+        Message m1 = newMessage("<cambios>\n"
                 + "	<cambio>\n"
                 + "		<tipo>crear</tipo>\n"
                 + "		<datos>\n"

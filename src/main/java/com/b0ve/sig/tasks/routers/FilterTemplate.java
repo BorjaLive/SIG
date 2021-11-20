@@ -7,6 +7,7 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 
 /**
  * Drops messages that do not fullfill a certain condition
+ *
  * @author borja
  */
 public abstract class FilterTemplate extends Task {

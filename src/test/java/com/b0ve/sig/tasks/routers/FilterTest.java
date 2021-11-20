@@ -10,6 +10,7 @@ import com.b0ve.sig.flow.Message;
 import static com.b0ve.sig.flow.Message.newMessage;
 import com.b0ve.sig.utils.condiciones.FilterConditionEquals;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import java.util.UUID;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -21,9 +22,11 @@ public class FilterTest {
 
     @Test
     public void tetFilter1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<cid>0</cid>");
-        Message m2 = newMessage(1, 1, "<cid>1</cid>");
-        Message m3 = newMessage(2, 2, "<cid>2</cid>");
+        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID();
+
+        Message m1 = newMessage(id0, id0, "<cid>0</cid>");
+        Message m2 = newMessage(id1, id1, "<cid>1</cid>");
+        Message m3 = newMessage(id2, id2, "<cid>2</cid>");
 
         Filter filter = new Filter(new FilterConditionEquals("cid", "1"));
         Buffer in = new Buffer(null, null);
@@ -37,15 +40,17 @@ public class FilterTest {
 
         filter.process();
 
-        assertTrue(out.retrive().getID() == 1);
-        assertTrue(out.retrive() == null);
+        assertEquals(out.retrive().getID(), id1);
+        assertNull(out.retrive());
     }
 
     @Test
     public void tetFilter2() throws SIGException {
-        Message m1 = newMessage(0, 0, "<cid>0</cid>");
-        Message m2 = newMessage(1, 1, "<cid>1</cid>");
-        Message m3 = newMessage(2, 2, "<cid>2</cid>");
+        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID();
+
+        Message m1 = newMessage(id0, id0, "<cid>0</cid>");
+        Message m2 = newMessage(id1, id1, "<cid>1</cid>");
+        Message m3 = newMessage(id2, id2, "<cid>2</cid>");
 
         Filter filter = new Filter((mensaje) -> {
             return Integer.parseInt(mensaje.evalString("/cid")) >= 1;
@@ -61,8 +66,8 @@ public class FilterTest {
 
         filter.process();
 
-        assertEquals(out.retrive().getID(), 1);
-        assertEquals(out.retrive().getID(), 2);
+        assertEquals(out.retrive().getID(), id1);
+        assertEquals(out.retrive().getID(), id2);
         assertNull(out.retrive());
     }
 

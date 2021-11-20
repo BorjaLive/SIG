@@ -9,6 +9,7 @@ import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.flow.Message;
 import static com.b0ve.sig.flow.Message.newMessage;
 import com.b0ve.sig.utils.exceptions.SIGException;
+import java.util.UUID;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -20,9 +21,11 @@ public class CorrelationIDSetterTest {
 
     @Test
     public void testCorrelationIDSetter1() throws SIGException {
-        Message m1 = newMessage(0, 0, "<m>1</m>");
-        Message m2 = newMessage(1, 0, "<m>2</m>");
-        Message m3 = newMessage(2, 0, "<m>3</m>");
+        UUID id1 = UUID.randomUUID(), id2 = UUID.randomUUID(), id3 = UUID.randomUUID();
+
+        Message m1 = newMessage(id1, null, "<m>1</m>");
+        Message m2 = newMessage(id2, null, "<m>2</m>");
+        Message m3 = newMessage(id3, null, "<m>3</m>");
         CorrelationIDSetter cidSetter = new CorrelationIDSetter();
         Buffer in = new Buffer(null, null);
         cidSetter.addInput(in);
@@ -35,9 +38,9 @@ public class CorrelationIDSetterTest {
 
         cidSetter.process();
 
-        assertEquals(out.retrive().getCorrelationID(), 0);
-        assertEquals(out.retrive().getCorrelationID(), 1);
-        assertEquals(out.retrive().getCorrelationID(), 2);
+        assertNotEquals(out.retrive().getCorrelationID(), id1);
+        assertNotEquals(out.retrive().getCorrelationID(), id2);
+        assertNotEquals(out.retrive().getCorrelationID(), id3);
     }
 
 }
