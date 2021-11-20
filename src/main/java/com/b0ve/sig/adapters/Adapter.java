@@ -72,6 +72,13 @@ public abstract class Adapter {
     public void halt() {
         running = false;
     }
+    
+    /**
+     * Returns true if the process is active
+     */
+    public boolean isRunning(){
+        return running;
+    }
 
     /**
      * Returns the type of port that the adapter needs.

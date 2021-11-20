@@ -143,76 +143,7 @@ public class ProcessAsyncIT {
 
     ArrayList<String> correosEnviados = new ArrayList<>();
     ArrayList<String> smssEnviados = new ArrayList<>();
-
-    @Test
-    public void testProcSyncEj1() throws SIGException {
-        Process p = new ProcessAsync();
-
-        correosEnviados.clear();
-        smssEnviados.clear();
-
-        Port pGMS,
-                pMySQL,
-                pMail,
-                pSMS;
-        try {
-            pGMS = p.createPort(aGMS);
-            pMySQL = p.createPort(aMySQL);
-            pMail = p.createPort(aMail);
-            pSMS = p.createPort(aSMS);
-        } catch (SIGException ex) {
-            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Port setup failed");
-            return;
-        }
-
-        Task translator1 = p.createTask(TRANSLATOR, confEj1Translator1);
-        Task splitter = p.createTask(SPLITTER, "/alumnos/alumno");
-        Task replicator1 = p.createTask(REPLICATOR);
-        Task translator2 = p.createTask(TRANSLATOR, confEj1Translator2);
-        Task translator3 = p.createTask(TRANSLATOR, confEj1Translator3);
-        Task correlator = p.createTask(CORRELATOR);
-        Task enricher = p.createTask(CONTEXT_ENRICHER);
-        Task replicator2 = p.createTask(REPLICATOR);
-        Task filter = p.createTask(FILTER, new FilterConditionNotEquals("/alumno/telefono", "null"));
-
-        p.connect(pGMS, translator1);
-        p.connect(translator1, splitter);
-        p.connect(splitter, replicator1);
-        p.connect(replicator1, translator2);
-        p.connect(replicator1, correlator);
-        p.connect(translator2, pMySQL);
-        p.connect(pMySQL, translator3);
-        p.connect(translator3, correlator);
-        p.connect(correlator, enricher);
-        p.connect(correlator, enricher);
-        p.connect(enricher, replicator2);
-        p.connect(replicator2, pMail);
-        p.connect(replicator2, filter);
-        p.connect(filter, pSMS);
-
-        try {
-            p.validate();
-        } catch (SIGException ex) {
-            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Proceso invalido");
-        }
-        p.execute();
-        try {
-            Thread.sleep(5000);
-            p.shutdown();
-            p.waitToEnd();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
-            fail("Problema esperando a que termine el proceso");
-        }
-
-        assertTrue(correosEnviados.contains("email1@example.org"));
-        assertTrue(correosEnviados.contains("email2@example.org"));
-        assertTrue(smssEnviados.contains("telf1"));
-        assertFalse(smssEnviados.contains("null"));
-    }
-
+    
     Adapter aEMS1 = new Adapter() {
         @Override
         public void iniciate() {
@@ -344,6 +275,75 @@ public class ProcessAsyncIT {
     };
 
     ArrayList<String> medidas = new ArrayList<>();
+
+    @Test
+    public void testProcSyncEj1() throws SIGException {
+        Process p = new ProcessAsync();
+
+        correosEnviados.clear();
+        smssEnviados.clear();
+
+        Port pGMS,
+                pMySQL,
+                pMail,
+                pSMS;
+        try {
+            pGMS = p.createPort(aGMS);
+            pMySQL = p.createPort(aMySQL);
+            pMail = p.createPort(aMail);
+            pSMS = p.createPort(aSMS);
+        } catch (SIGException ex) {
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            fail("Port setup failed");
+            return;
+        }
+
+        Task translator1 = p.createTask(TRANSLATOR, confEj1Translator1);
+        Task splitter = p.createTask(SPLITTER, "/alumnos/alumno");
+        Task replicator1 = p.createTask(REPLICATOR);
+        Task translator2 = p.createTask(TRANSLATOR, confEj1Translator2);
+        Task translator3 = p.createTask(TRANSLATOR, confEj1Translator3);
+        Task correlator = p.createTask(CORRELATOR);
+        Task enricher = p.createTask(CONTEXT_ENRICHER);
+        Task replicator2 = p.createTask(REPLICATOR);
+        Task filter = p.createTask(FILTER, new FilterConditionNotEquals("/alumno/telefono", "null"));
+
+        p.connect(pGMS, translator1);
+        p.connect(translator1, splitter);
+        p.connect(splitter, replicator1);
+        p.connect(replicator1, translator2);
+        p.connect(replicator1, correlator);
+        p.connect(translator2, pMySQL);
+        p.connect(pMySQL, translator3);
+        p.connect(translator3, correlator);
+        p.connect(correlator, enricher);
+        p.connect(correlator, enricher);
+        p.connect(enricher, replicator2);
+        p.connect(replicator2, pMail);
+        p.connect(replicator2, filter);
+        p.connect(filter, pSMS);
+
+        try {
+            p.validate();
+        } catch (SIGException ex) {
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            fail("Proceso invalido");
+        }
+        p.execute();
+        try {
+            Thread.sleep(5000);
+            p.shutdown();
+            p.waitToEnd();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ProcessSyncIT.class.getName()).log(Level.SEVERE, null, ex);
+            fail("Problema esperando a que termine el proceso");
+        }
+
+        assertTrue(correosEnviados.contains("email1@example.org"));
+        assertTrue(correosEnviados.contains("email2@example.org"));
+        assertTrue(smssEnviados.contains("telf1"));
+        assertFalse(smssEnviados.contains("null"));
+    }
 
     @Test
     public void testProcSyncEj2() throws SIGException {
