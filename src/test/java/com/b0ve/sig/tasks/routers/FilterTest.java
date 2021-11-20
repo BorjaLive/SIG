@@ -22,7 +22,9 @@ public class FilterTest {
 
     @Test
     public void tetFilter1() throws SIGException {
-        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID();
+        UUID id0 = UUID.randomUUID(),
+                id1 = UUID.randomUUID(),
+                id2 = UUID.randomUUID();
 
         Message m1 = newMessage(id0, id0, "<cid>0</cid>");
         Message m2 = newMessage(id1, id1, "<cid>1</cid>");

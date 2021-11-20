@@ -21,7 +21,9 @@ public class CorrelationIDSetterTest {
 
     @Test
     public void testCorrelationIDSetter1() throws SIGException {
-        UUID id1 = UUID.randomUUID(), id2 = UUID.randomUUID(), id3 = UUID.randomUUID();
+        UUID id1 = UUID.randomUUID(),
+                id2 = UUID.randomUUID(),
+                id3 = UUID.randomUUID();
 
         Message m1 = newMessage(id1, null, "<m>1</m>");
         Message m2 = newMessage(id2, null, "<m>2</m>");

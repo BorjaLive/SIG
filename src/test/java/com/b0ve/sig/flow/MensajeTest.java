@@ -18,7 +18,9 @@ public class MensajeTest {
 
     @Test
     public void testFragmentInfo() throws SIGException {
-        UUID id1 = UUID.randomUUID(), id2 = UUID.randomUUID(), id3 = UUID.randomUUID();
+        UUID id1 = UUID.randomUUID(),
+                id2 = UUID.randomUUID(),
+                id3 = UUID.randomUUID();
 
         //Se cumple el orden de inserción y extracción
         Message m1 = new Message("<n>1</n>");

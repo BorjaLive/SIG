@@ -22,7 +22,12 @@ public class DistributorTest {
 
     @Test
     public void testDistributor1() throws SIGException {
-        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID(), id3 = UUID.randomUUID(), id4 = UUID.randomUUID(), id5 = UUID.randomUUID();
+        UUID id0 = UUID.randomUUID(),
+                id1 = UUID.randomUUID(),
+                id2 = UUID.randomUUID(),
+                id3 = UUID.randomUUID(),
+                id4 = UUID.randomUUID(),
+                id5 = UUID.randomUUID();
 
         Distributor distributor = new Distributor(new FilterConditionEquals[]{new FilterConditionEquals("/cid", "0"), new FilterConditionEquals("/cid", "1")});
         Message m1 = newMessage(id0, id0, "<cid>0</cid>");

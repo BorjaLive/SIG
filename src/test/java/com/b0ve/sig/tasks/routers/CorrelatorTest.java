@@ -20,7 +20,9 @@ public class CorrelatorTest {
 
     @Test
     public void testCorrelator1() throws Exception {
-        UUID id0 = UUID.randomUUID(), id1 = UUID.randomUUID(), id2 = UUID.randomUUID();
+        UUID id0 = UUID.randomUUID(),
+                id1 = UUID.randomUUID(),
+                id2 = UUID.randomUUID();
 
         Message m11 = newMessage(UUID.randomUUID(), id0, "<m>11</m>");
         Message m12 = newMessage(UUID.randomUUID(), id1, "<m>12</m>");

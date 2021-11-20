@@ -97,10 +97,15 @@ public class AggregatorTest {
         a2.process();
         a1.process();
 
-        assertTrue(aout.retrive().getBodyString().contains("<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c></b></a>"));
+        Message m = aout.retrive();
+        assertTrue(m.getBodyString().contains("b1c1"));
+        assertTrue(m.getBodyString().contains("b1c2"));
+        assertTrue(m.getBodyString().contains("b2c1"));
         assertTrue(aout.empty());
         assertTrue(sout.empty());
-        assertTrue(amid.retrive().getBodyString().contains("<b><c>b1c1</c><c>b1c2</c></b>"));
+        m = amid.retrive();
+        assertTrue(m.getBodyString().contains("b1c1"));
+        assertTrue(m.getBodyString().contains("b1c2"));
         assertNull(amid.retrive());
     }
 
