@@ -1,5 +1,6 @@
-package com.b0ve.sig.adapters;
+package com.b0ve.sig.adapters.basic;
 
+import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.Process.PORTS;
 import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -45,7 +46,7 @@ public class AdapterMySQLmultyQuery extends Adapter {
     }
 
     @Override
-    public Document sendApp(Document doc) {
+    public Document sendApp(Document doc) throws SIGException {
         try {
             NodeList queries = XMLUtils.eval(doc, queryXPath);
             for (int i = 0; i < queries.getLength(); i++) {
@@ -55,32 +56,29 @@ public class AdapterMySQLmultyQuery extends Adapter {
                 stmt.close();
             }
         } catch (SQLException ex) {
-            handleException(new SIGException("SQL Exception ", XMLUtils.serialize(doc), ex));
-        } catch (SIGException ex) {
-            handleException(ex);
+            throw new SIGException("SQL Exception ", XMLUtils.serialize(doc), ex);
         }
         return null;
     }
 
     @Override
-    public void iniciate() {
+    public void iniciate() throws SIGException {
         super.iniciate();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + puerto + "/" + db, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
-            handleException(new SIGException("Error connecting to DB", null, ex));
-            conn = null;
+            throw new SIGException("Error connecting to DB", null, ex);
         }
     }
 
     @Override
-    public void halt() {
+    public void halt() throws SIGException {
         super.halt();
         try {
             conn.close();
         } catch (SQLException ex) {
-            handleException(new SIGException("Error disconnecting from DB", null, ex));
+            throw new SIGException("Error disconnecting from DB", null, ex);
         }
     }
 

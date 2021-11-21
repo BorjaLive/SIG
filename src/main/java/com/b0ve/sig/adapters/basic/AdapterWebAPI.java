@@ -1,5 +1,6 @@
-package com.b0ve.sig.adapters;
+package com.b0ve.sig.adapters.basic;
 
+import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.Process.PORTS;
 import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -32,21 +33,11 @@ public class AdapterWebAPI extends Adapter {
     }
 
     @Override
-    public Document sendApp(Document doc) {
-        try {
-            JSONObject xmlJSONObj = XML.toJSONObject(XMLUtils.serialize(doc));
-            String request = xmlJSONObj.toString(4);
-            String response = request(request);
-            JSONObject json = new JSONObject(response);
-            String responseXML = XML.toString(json);
-            return XMLUtils.parse(responseXML);
-        } catch (SIGException ex) {
-            handleException(ex);
-        }
-        return null;
+    public Document sendApp(Document doc) throws SIGException {
+        return XMLUtils.json2doc(request(XMLUtils.doc2json(doc)));
     }
 
-    private String request(String data) {
+    private String request(String data) throws SIGException {
         try {
             URL url = new URL(gateway);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -72,13 +63,12 @@ public class AdapterWebAPI extends Adapter {
                 return response.toString();
             }
         } catch (MalformedURLException | ProtocolException | UnknownHostException ex) {
-            handleException(new SIGException("Could not make request to gateway", gateway, ex));
+            throw new SIGException("Could not make request to gateway", gateway, ex);
         } catch (IOException ex) {
-            handleException(new SIGException("IO Making request", data, ex));
+            throw new SIGException("IO Making request", data, ex);
         }
-        return null;
     }
-    
+
     @Override
     public PORTS getCompatiblePortType() {
         return PORTS.REQUEST;

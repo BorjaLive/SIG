@@ -20,7 +20,7 @@ public abstract class FilterCondition implements Checkeable {
 
     @Override
     public final boolean checkCondition(Message mensaje) throws SIGException {
-        return testValue(mensaje.evalString(xpath));
+        return testValue(mensaje.evalString(xpath).trim());
     }
 
     protected abstract boolean testValue(String text);

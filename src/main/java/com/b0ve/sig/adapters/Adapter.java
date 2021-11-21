@@ -62,21 +62,21 @@ public abstract class Adapter {
     /**
      * Sets up and starts the adapter
      */
-    public void iniciate() {
+    public void iniciate() throws SIGException {
         running = true;
     }
 
     /**
      * Stops the adapter if it has running threads
      */
-    public void halt() {
+    public void halt() throws SIGException {
         running = false;
     }
-    
+
     /**
      * Returns true if the process is active
      */
-    public boolean isRunning(){
+    public boolean isRunning() {
         return running;
     }
 

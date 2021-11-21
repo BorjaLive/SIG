@@ -1,5 +1,6 @@
-package com.b0ve.sig.adapters;
+package com.b0ve.sig.adapters.test;
 
+import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.Process.PORTS;
 import com.b0ve.sig.utils.XMLUtils;
 import javax.swing.JOptionPane;

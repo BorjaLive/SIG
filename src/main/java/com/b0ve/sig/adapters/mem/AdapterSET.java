@@ -1,5 +1,6 @@
-package com.b0ve.sig.adapters;
+package com.b0ve.sig.adapters.mem;
 
+import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -41,29 +42,24 @@ public class AdapterSET extends Adapter {
 
     @Override
     public Document sendApp(Document doc) throws SIGException {
-        try {
-            String action = XMLUtils.evalString(doc, actionXPath);
-            String value = XMLUtils.evalString(doc, valueXPath);
-            boolean result = false;
-            if (action.equals("create")) {
-                result = set.contains(value);
-                if (!result) {
-                    set.add(value);
-                }
-            } else if (action.equals("delete")) {
-                result = !set.contains(value);
-                if (!result) {
-                    set.remove(value);
-                }
-            } else {
-                throw new SIGException("SET doesnt recognize the action", action, null);
+        String action = XMLUtils.evalString(doc, actionXPath);
+        String value = XMLUtils.evalString(doc, valueXPath);
+        boolean result = false;
+        if (action.equals("create")) {
+            result = set.contains(value);
+            if (!result) {
+                set.add(value);
             }
-            System.out.println("Me preguntan por: " + action + " valor: " + value + " le digo que " + result);
-            return XMLUtils.parse("<response>" + (result ? "true" : "false") + "</response>");
-        } catch (SIGException ex) {
-            handleException(ex);
+        } else if (action.equals("delete")) {
+            result = !set.contains(value);
+            if (!result) {
+                set.remove(value);
+            }
+        } else {
+            throw new SIGException("SET doesnt recognize the action", action, null);
         }
-        return null;
+        System.out.println("Me preguntan por: " + action + " valor: " + value + " le digo que " + result);
+        return XMLUtils.parse("<response>" + (result ? "true" : "false") + "</response>");
     }
 
     @Override

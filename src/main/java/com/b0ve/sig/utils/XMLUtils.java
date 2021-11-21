@@ -29,6 +29,8 @@ import net.sf.saxon.s9api.Xslt30Transformer;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import org.atteo.xmlcombiner.XmlCombiner;
+import org.json.JSONObject;
+import org.json.XML;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -290,7 +292,7 @@ public class XMLUtils {
             throw new SIGException("Error applying transformation", new String[]{style, serialize(doc)}, ex);
         }
     }
-    
+
     /**
      * Creates a W3C Document from ResultSet given by SQL DB.
      *
@@ -324,5 +326,25 @@ public class XMLUtils {
             }
         }
         return doc;
+    }
+    
+
+    public static String doc2json(Document doc) {
+        return doc2json(XMLUtils.serialize(doc));
+    }
+
+    public static String doc2json(String xml) {
+        JSONObject xmlJSONObj = XML.toJSONObject(xml);
+        return xmlJSONObj.toString(4);
+    }
+    
+    public static Document json2doc(String json) throws SIGException {
+        JSONObject jsonObject = new JSONObject(json);
+        String responseXML = XML.toString(jsonObject);
+        try {
+            return XMLUtils.parse(responseXML);
+        } catch (Exception e) {
+            return XMLUtils.parse("<root>"+responseXML+"</root>");
+        }
     }
 }

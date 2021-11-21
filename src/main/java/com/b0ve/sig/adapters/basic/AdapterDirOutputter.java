@@ -1,5 +1,6 @@
-package com.b0ve.sig.adapters;
+package com.b0ve.sig.adapters.basic;
 
+import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.Process;
 import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -25,14 +26,14 @@ public class AdapterDirOutputter extends Adapter {
     }
 
     @Override
-    public Document sendApp(Document doc) {
+    public Document sendApp(Document doc) throws SIGException {
         FileWriter myWriter = null;
         try {
             myWriter = new FileWriter(destdir + "/" + counter + ".xml");
             myWriter.write(XMLUtils.serialize(doc));
             myWriter.close();
         } catch (IOException ex) {
-            handleException(new SIGException("Error creating file in directory", destdir, ex));
+            throw new SIGException("Error creating file in directory", destdir, ex);
         }
         counter++;
         return null;

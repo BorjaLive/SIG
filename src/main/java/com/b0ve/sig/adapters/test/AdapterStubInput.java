@@ -1,5 +1,6 @@
-package com.b0ve.sig.adapters;
+package com.b0ve.sig.adapters.test;
 
+import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.IOException;
 import java.nio.file.Files;

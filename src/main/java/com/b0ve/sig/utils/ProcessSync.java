@@ -5,6 +5,8 @@ import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProcessSync extends Process {
 
@@ -22,7 +24,11 @@ public class ProcessSync extends Process {
     public void execute() {
         for (Task tarea : tasks) {
             if (tarea instanceof Port) {
-                ((Port) tarea).getAdapter().iniciate();
+                try {
+                    ((Port) tarea).getAdapter().iniciate();
+                } catch (SIGException ex) {
+                    handleException(ex);
+                }
             }
         }
         ejecucion = new Thread() {
@@ -58,7 +64,11 @@ public class ProcessSync extends Process {
         ejecucion.interrupt();
         for (Task tarea : tasks) {
             if (tarea instanceof Port) {
-                ((Port) tarea).getAdapter().halt();
+                try {
+                    ((Port) tarea).getAdapter().halt();
+                } catch (SIGException ex) {
+                    handleException(ex);
+                }
             }
         }
     }

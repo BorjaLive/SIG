@@ -2,8 +2,11 @@ package com.b0ve.sig.utils;
 
 import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.tasks.Task;
+import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProcessAsync extends Process {
 
@@ -25,7 +28,11 @@ public class ProcessAsync extends Process {
             threads.add(hilo);
             hilo.start();
             if (tarea instanceof Port) {
-                ((Port) tarea).getAdapter().iniciate();
+                try {
+                    ((Port) tarea).getAdapter().iniciate();
+                } catch (SIGException ex) {
+                    handleException(ex);
+                }
             }
         }
     }
@@ -44,7 +51,11 @@ public class ProcessAsync extends Process {
         }
         for (Task tarea : tasks) {
             if (tarea instanceof Port) {
-                ((Port) tarea).getAdapter().halt();
+                try {
+                    ((Port) tarea).getAdapter().halt();
+                } catch (SIGException ex) {
+                    handleException(ex);
+                }
             }
         }
     }
