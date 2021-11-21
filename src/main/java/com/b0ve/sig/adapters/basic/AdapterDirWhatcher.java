@@ -8,8 +8,6 @@ import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Simple adapter that sends a message to the process for each file that it

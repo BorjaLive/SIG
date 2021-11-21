@@ -15,8 +15,6 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 import java.time.Instant;
 import java.util.Iterator;
 import java.util.Objects;
-import org.apache.commons.text.StringEscapeUtils;
-import org.w3c.dom.Document;
 
 /**
  *

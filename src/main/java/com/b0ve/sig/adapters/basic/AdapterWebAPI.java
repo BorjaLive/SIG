@@ -13,8 +13,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import org.json.JSONObject;
-import org.json.XML;
 import org.w3c.dom.Document;
 
 /**

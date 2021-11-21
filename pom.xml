@@ -41,8 +41,8 @@
     </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     
     <profiles>
@@ -213,6 +213,21 @@
             <groupId>com.afrozaar.wordpress</groupId>
             <artifactId>wp-api-v2-client-java</artifactId>
             <version>4.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tumblr</groupId>
+            <artifactId>jumblr</artifactId>
+            <version>0.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>[4.0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.14.3</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

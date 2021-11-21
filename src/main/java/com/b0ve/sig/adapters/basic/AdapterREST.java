@@ -91,7 +91,7 @@ public class AdapterREST extends Adapter {
 
             //Cabecera fija para recibir json
             con.setRequestProperty("Accept", "application/json");
-            if(bodyJson != null){
+            if (bodyJson != null) {
                 //Establecer el contenido a json
                 con.setRequestProperty("Content-Type", "application/json; utf-8");
             }
@@ -108,6 +108,7 @@ public class AdapterREST extends Adapter {
                 case "BASIC":
                     String userAndPass = XMLUtils.evalString(doc, "/request/authorization/data/username", "") + ":" + XMLUtils.evalString(doc, "/request/authorization/data/password", "");
                     con.setRequestProperty("Authorization", "Basic " + Base64.encodeBase64String(userAndPass.getBytes()));
+                    break;
                 default:
                     break;
             }
@@ -134,10 +135,11 @@ public class AdapterREST extends Adapter {
                     response.append(responseLine.trim());
                 }
                 con.disconnect();
-                if(response.toString().isEmpty())
+                if (response.toString().isEmpty()) {
                     return XMLUtils.json2doc("{\"status\":\"ok\"}");
-                else
+                } else {
                     return XMLUtils.json2doc(response.toString());
+                }
             }
         } catch (MalformedURLException | ProtocolException | UnknownHostException ex) {
             throw new SIGException("Could not make request to gateway", requestUrl, ex);

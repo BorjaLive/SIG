@@ -5,8 +5,6 @@ import com.b0ve.sig.ports.Port;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ProcessSync extends Process {
 

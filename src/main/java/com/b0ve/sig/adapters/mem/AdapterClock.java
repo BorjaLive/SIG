@@ -2,15 +2,10 @@ package com.b0ve.sig.adapters.mem;
 
 import com.b0ve.sig.adapters.Adapter;
 import com.b0ve.sig.utils.Process;
-import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.xpath.XPathExpression;
-import org.w3c.dom.Document;
 
 /**
  * Sends a message periodically FORMAT:

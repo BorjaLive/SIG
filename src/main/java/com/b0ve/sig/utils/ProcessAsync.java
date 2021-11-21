@@ -5,8 +5,6 @@ import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ProcessAsync extends Process {
 
