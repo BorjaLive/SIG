@@ -21,13 +21,8 @@ public final class Splitter extends SplitterTemplate {
     }
 
     @Override
-    protected Document[] split(Message m) throws SIGException {
-        NodeList lista = m.eval(xpath);
-        Document[] partes = new Document[lista.getLength()];
-        for (int i = 0; i < lista.getLength(); i++) {
-            partes[i] = XMLUtils.node2document(lista.item(i));
-        }
-        return partes;
+    protected Document[] split(Message mensaje) throws SIGException {
+        return XMLUtils.split(mensaje, xpath);
     }
 
 }

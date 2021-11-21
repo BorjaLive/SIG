@@ -1,5 +1,6 @@
 package com.b0ve.sig.utils;
 
+import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -327,24 +328,102 @@ public class XMLUtils {
         }
         return doc;
     }
-    
 
+    /**
+     * Converts an xml document to JSON string
+     *
+     * @param doc W3C Document
+     * @return JSON
+     */
     public static String doc2json(Document doc) {
         return doc2json(XMLUtils.serialize(doc));
     }
 
+    /**
+     * Converts an xml string to JSON string
+     *
+     * @param xml W3C Document
+     * @return JSON
+     */
     public static String doc2json(String xml) {
         JSONObject xmlJSONObj = XML.toJSONObject(xml);
         return xmlJSONObj.toString(4);
     }
-    
+
+    /**
+     * Converts a JSON string to XML Document
+     *
+     * @param json JSON String
+     * @return W3C Document
+     * @throws SIGException
+     */
     public static Document json2doc(String json) throws SIGException {
         JSONObject jsonObject = new JSONObject(json);
         String responseXML = XML.toString(jsonObject);
         try {
             return XMLUtils.parse(responseXML);
         } catch (Exception e) {
-            return XMLUtils.parse("<root>"+responseXML+"</root>");
+            return XMLUtils.parse("<root>" + responseXML + "</root>");
+        }
+    }
+
+    /**
+     * Splits a message using a precompiled XPath expression
+     *
+     * @param m
+     * @param xpath Precompiled XPath expression
+     * @return
+     * @throws SIGException
+     */
+    public static Document[] split(Message m, XPathExpression xpath) throws SIGException {
+        NodeList lista = m.eval(xpath);
+        Document[] partes = new Document[lista.getLength()];
+        for (int i = 0; i < lista.getLength(); i++) {
+            partes[i] = XMLUtils.node2document(lista.item(i));
+        }
+        return partes;
+    }
+
+    /**
+     * Joins messages on a single root or tags in cascade
+     *
+     * @param messages Messages to be joint
+     * @param rootName String or Array of String
+     * @return Document containing messages on root
+     * @throws SIGException
+     */
+    public static Document join(Message[] messages, Object rootName) throws SIGException {
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = dbf.newDocumentBuilder();
+            Document doc = builder.newDocument();
+            Element appendPoint = null;
+            if (rootName instanceof String) {
+                appendPoint = doc.createElement((String) rootName);
+                doc.appendChild(appendPoint);
+            } else if (rootName instanceof String[]) {
+                String[] rootNames = (String[]) rootName;
+                for (String name : rootNames) {
+                    Element newPoint = doc.createElement(name);
+                    if (appendPoint == null) {
+                        doc.appendChild(newPoint);
+                    } else {
+                        appendPoint.appendChild(newPoint);
+                    }
+                    appendPoint = newPoint;
+                }
+            } else {
+                appendPoint = doc.createElement("list");
+                doc.appendChild(appendPoint);
+            }
+            for (Message message : messages) {
+                Node newChild = XMLUtils.document2node(message.getBody());
+                Node imported = doc.importNode(newChild, true);
+                appendPoint.appendChild(imported);
+            }
+            return doc;
+        } catch (ParserConfigurationException ex) {
+            throw new SIGException("Messages could not be combined", messages, ex);
         }
     }
 }

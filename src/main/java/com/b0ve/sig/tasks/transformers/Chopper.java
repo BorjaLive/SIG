@@ -23,12 +23,7 @@ public final class Chopper extends ChopperTemplate {
 
     @Override
     protected Document[] chop(Message mensaje) throws SIGException {
-        NodeList lista = mensaje.eval(xpath);
-        Document[] partes = new Document[lista.getLength()];
-        for (int i = 0; i < lista.getLength(); i++) {
-            partes[i] = XMLUtils.node2document(lista.item(i));
-        }
-        return partes;
+        return XMLUtils.split(mensaje, xpath);
     }
 
 }
