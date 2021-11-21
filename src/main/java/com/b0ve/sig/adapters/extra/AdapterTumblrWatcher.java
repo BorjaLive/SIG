@@ -6,7 +6,6 @@ import com.b0ve.sig.utils.exceptions.SIGException;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
-import com.tumblr.jumblr.types.TextPost;
 import com.tumblr.jumblr.types.User;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -49,8 +48,10 @@ public class AdapterTumblrWatcher extends Adapter {
                                 String type = post.getType().getValue();
                                 switch (type) {
                                     case "text":
-                                        TextPost textPost = (TextPost) post;
+                                        //TextPost textPost = (TextPost) post;
                                         //TODO: Este post y otros, hay que sacarlos
+                                        break;
+                                    default:
                                         break;
                                 }
                             }

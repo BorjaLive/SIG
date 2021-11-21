@@ -3,9 +3,7 @@ package com.b0ve.sig.tasks.transformers;
 import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.tasks.Task;
-import com.b0ve.sig.utils.XMLUtils;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import javax.xml.xpath.XPathExpression;
 /**
  * Outputs multiple messages with content from a single message
  *

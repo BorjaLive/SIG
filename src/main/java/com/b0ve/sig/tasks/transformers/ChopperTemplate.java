@@ -1,13 +1,9 @@
 package com.b0ve.sig.tasks.transformers;
 
 import com.b0ve.sig.flow.Buffer;
-import com.b0ve.sig.flow.FragmentInfo;
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
-import java.util.UUID;
-import javax.xml.xpath.XPathExpression;
-import org.w3c.dom.Document;
 
 /**
  * Outputs multiple messages from the content of a message. Number of elements
