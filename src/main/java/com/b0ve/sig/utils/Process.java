@@ -156,13 +156,13 @@ public abstract class Process {
                 task = new Splitter((String) configuration);
                 break;
             case AGGREGATOR:
-                task = new Aggregator(configuration);
+                task = new Aggregator();
                 break;
             case CHOPPER:
                 task = new Chopper((String) configuration);
                 break;
             case ASSEMBLER:
-                task = new Assembler(configuration);
+                task = new Assembler();
                 break;
             case DEBUG:
                 task = new TaskDebug((boolean) configuration);

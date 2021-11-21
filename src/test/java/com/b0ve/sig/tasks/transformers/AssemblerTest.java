@@ -44,7 +44,7 @@ public class AssemblerTest {
         chopper.addOutput(mid2);
         chopper.addOutput(mid3);
 
-        Assembler assembler = new Assembler("coleccion");
+        Assembler assembler = new Assembler();
         assembler.addInput(mid1);
         assembler.addInput(mid2);
         assembler.addInput(mid3);
@@ -58,7 +58,7 @@ public class AssemblerTest {
         mid2.retrive();
         assembler.process();
 
-        assertEquals(out.retrive().eval("/coleccion/libro").getLength(), 3);
+        assertEquals(out.retrive().eval("/libros/libro").getLength(), 3);
         assertTrue(out.empty());
         assertNotNull(mid1.retrive());
         assertNull(mid2.retrive());
@@ -88,8 +88,8 @@ public class AssemblerTest {
         c2b.addOutput(cout3);
         c2b.addOutput(cout4);
 
-        Assembler a1a = new Assembler("b");
-        Assembler a1b = new Assembler("b");
+        Assembler a1a = new Assembler();
+        Assembler a1b = new Assembler();
         a1a.addInput(cout1);
         a1a.addInput(cout2);
         a1b.addInput(cout3);
@@ -98,7 +98,7 @@ public class AssemblerTest {
         Buffer amid2 = new Buffer(null, null);
         a1a.addOutput(amid1);
         a1b.addOutput(amid2);
-        Assembler a2 = new Assembler("a");
+        Assembler a2 = new Assembler();
         a2.addInput(amid1);
         a2.addInput(amid2);
         Buffer aout = new Buffer(null, null);

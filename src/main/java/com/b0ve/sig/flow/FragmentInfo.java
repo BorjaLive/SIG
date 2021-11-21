@@ -30,11 +30,11 @@ public class FragmentInfo {
         return fragmentSize;
     }
 
-    public Document getOriginalDoc() {
+    public Document getOriginalDocument() {
         return originalDoc;
     }
 
-    public Node getParentNode() {
+    public Node getOriginalFather() {
         return parentNode;
     }
 

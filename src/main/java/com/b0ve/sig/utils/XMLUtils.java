@@ -1,5 +1,6 @@
 package com.b0ve.sig.utils;
 
+import com.b0ve.sig.flow.FragmentInfo;
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.utils.exceptions.SIGException;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.UUID;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -370,18 +372,44 @@ public class XMLUtils {
     /**
      * Splits a message using a precompiled XPath expression
      *
-     * @param m
+     * @param message Message to be splitted
      * @param xpath Precompiled XPath expression
-     * @return
+     * @return List of messages
      * @throws SIGException
      */
-    public static Document[] split(Message m, XPathExpression xpath) throws SIGException {
-        NodeList lista = m.eval(xpath);
-        Document[] partes = new Document[lista.getLength()];
-        for (int i = 0; i < lista.getLength(); i++) {
-            partes[i] = XMLUtils.node2document(lista.item(i));
+    public static Message[] split(Message message, XPathExpression xpath) throws SIGException {
+        UUID fragmentID = UUID.randomUUID();
+        NodeList list = message.eval(xpath);
+        Message[] parts = new Message[list.getLength()];
+        for (int i = 0; i < list.getLength(); i++) {
+            Document newDoc = XMLUtils.node2document(list.item(i));
+            parts[i] = new Message(newDoc);
+            parts[i].addFragmentInfo(message.getFragmentInfoStack());
+            parts[i].addFragmentInfo(new FragmentInfo(fragmentID, parts.length, message.getBody(), list.item(i).getParentNode()));
+            list.item(i).getParentNode().removeChild(list.item(i));
         }
-        return partes;
+        return parts;
+    }
+
+    /**
+     * Joins messages respecting original structure and data
+     *
+     * @param messages Messages to be joint
+     * @return Document containing messages on root
+     * @throws com.b0ve.sig.utils.exceptions.SIGException
+     */
+    public static Message join(Message[] messages) throws SIGException{
+        Document doc = messages[0].getFragmentOriginalDocument();
+        for (Message message : messages) {
+            Node newChild = XMLUtils.document2node(message.getBody());
+            Node imported = doc.importNode(newChild, true);
+            message.getFragmentOriginalFather().appendChild(imported);
+        }
+        
+        Message message = new Message(doc);
+        messages[0].removeFragmentInfo();
+        message.addFragmentInfo(messages[0].getFragmentInfoStack());
+        return message;
     }
 
     /**
@@ -392,7 +420,7 @@ public class XMLUtils {
      * @return Document containing messages on root
      * @throws SIGException
      */
-    public static Document join(Message[] messages, Object rootName) throws SIGException {
+    public static Document joinNewRoot(Message[] messages, Object rootName) throws SIGException {
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = dbf.newDocumentBuilder();

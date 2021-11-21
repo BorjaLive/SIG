@@ -7,6 +7,7 @@ import java.util.Stack;
 import java.util.UUID;
 import javax.xml.xpath.XPathExpression;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public final class Message {
@@ -98,6 +99,24 @@ public final class Message {
      */
     public long getFragmentSize() {
         return fragmentInfo.isEmpty() ? -1 : fragmentInfo.peek().getFragmentSize();
+    }
+
+    /**
+     * Returns topmost original document
+     *
+     * @return
+     */
+    public Document getFragmentOriginalDocument() {
+        return fragmentInfo.isEmpty() ? null : fragmentInfo.peek().getOriginalDocument();
+    }
+
+    /**
+     * Returns topmost original parent node
+     *
+     * @return
+     */
+    public Node getFragmentOriginalFather() {
+        return fragmentInfo.isEmpty() ? null : fragmentInfo.peek().getOriginalFather();
     }
 
     /**

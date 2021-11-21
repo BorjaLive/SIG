@@ -34,7 +34,7 @@ public class SplitterTest {
                 + "		<precio>25</precio>\n"
                 + "	</libro>\n"
                 + "</libros>");
-        Splitter splitter = new Splitter("/libros/libro");
+        SplitterTemplate splitter = new Splitter("/libros/libro");
         Buffer in = new Buffer(null, null);
         splitter.addInput(in);
         Buffer out = new Buffer(null, null);
@@ -52,12 +52,12 @@ public class SplitterTest {
     @Test
     public void testSplitter2() throws SIGException {
         Message m1 = newMessage("<a><b><c>b1c1</c><c>b1c2</c></b><b><c>b2c1</c></b></a>");
-        Splitter s1 = new Splitter("/a/b");
+        SplitterTemplate s1 = new Splitter("/a/b");
         Buffer in = new Buffer(null, null);
         s1.addInput(in);
         Buffer mid = new Buffer(null, null);
         s1.addOutput(mid);
-        Splitter s2 = new Splitter("/b/c");
+        SplitterTemplate s2 = new Splitter("/b/c");
         s2.addInput(mid);
         Buffer out = new Buffer(null, null);
         s2.addOutput(out);
