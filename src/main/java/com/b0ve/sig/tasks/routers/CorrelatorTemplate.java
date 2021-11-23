@@ -1,5 +1,6 @@
 package com.b0ve.sig.tasks.routers;
 
+import com.b0ve.sig.flow.Buffer;
 import com.b0ve.sig.flow.Message;
 import com.b0ve.sig.tasks.Task;
 import com.b0ve.sig.utils.exceptions.SIGException;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -26,38 +28,30 @@ public abstract class CorrelatorTemplate extends Task {
             //Bloquear las nuevas entradas
             lockPushes();
             try {
-                //Buscar en los mensajes del primer buffer, uno a uno en los otros buffers
-                Map<Message, List<Message>> relations = new HashMap<>();
-                for (Iterator<Message> iteratorMain = input(0).getIterator(); iteratorMain.hasNext();) {
-                    Message objective = iteratorMain.next();
-                    //Lista de mensajes que coinciden, el primero ya lo sabemos
-                    relations.put(objective, new ArrayList<>());
-                    //Buscar en cada buffer
-                    for (int i = 1; i < nInputs(); i++) {
-                        //Recorrer los mensajes del buffer
-                        boolean found = false;
-                        Iterator<Message> iteratorSecondary = input(i).getIterator();
-                        while (iteratorSecondary.hasNext() && !found) {
-                            Message searched = iteratorSecondary.next();
-                            if (correlates(objective, searched)) {
-                                relations.get(objective).add(searched);
-                                found = true;
-                                //No importa si dejamos huecos, porque entonces los numeros no cuendran y no se hace nada con los mensajes
-                            }
+                //Buscar en todos los buffers de entrada y organizar por el campo de correlacion
+                Map<Object, List<Message>> relations = new HashMap<>();
+                for (Iterator<Buffer> iterator = inputs(); iterator.hasNext();) {
+                    Buffer input = iterator.next();
+                    for (Iterator<Message> iterator1 = input.getIterator(); iterator1.hasNext();) {
+                        Message message = iterator1.next();
+                        Object correlation = extractCorrelation(message);
+                        List<Message> list = relations.get(correlation);
+                        if(list == null){
+                            list = new ArrayList<>();
+                            relations.put(correlation, list);
                         }
+                        list.add(message);
                     }
                 }
-
-                for (Map.Entry<Message, List<Message>> relation : relations.entrySet()) {
-                    Message first = relation.getKey();
-                    List<Message> others = relation.getValue();
-
-                    if (others.size() == nInputs() - 1) {
-                        input(0).deleteMessage(first);
-                        output(0).push(first);
-                        for (int i = 0; i < others.size(); i++) {
-                            input(i + 1).deleteMessage(others.get(i));
-                            output(i + 1).push(others.get(i));
+                //Los grupos que esten completos se borran de los buffers de entrada y se envian por los de salida
+                for (Map.Entry<Object, List<Message>> relation : relations.entrySet()) {
+                    List<Message> list = relation.getValue();
+                    if(list.size() == nInputs()){
+                        for (ListIterator<Message> iterator = list.listIterator(); iterator.hasNext();) {
+                            int i = iterator.nextIndex();
+                            Message message = iterator.next();
+                            input(i).deleteMessage(message);
+                            output(i).push(message);
                         }
                     }
                 }
@@ -72,8 +66,16 @@ public abstract class CorrelatorTemplate extends Task {
         }
     }
 
-    protected boolean correlates(Message m1, Message m2) throws SIGException {
-        return m1.getCorrelationID() == m2.getCorrelationID();
+    protected Object extractCorrelation(Message message) throws SIGException {
+        return message.getCorrelationID();
+    }
+
+    @Override
+    public void validate() throws SIGException {
+        super.validate();
+        if (nInputs() != nOutputs()) {
+            throw new SIGException("Configuration exception. Correlator requires the same number of inputs and outputs", null, null);
+        }
     }
 
 }

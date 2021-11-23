@@ -40,7 +40,8 @@ public class ContextEnricherTest {
 
         enricher.process();
 
-        assertEquals(m1.evalString("/pelicula"), "Crimen Ferpecto10.5");
+        assertEquals(out.retrive().evalString("/pelicula"), "Crimen Ferpecto10.5");
+        assertNull(out.retrive());
     }
 
 }

@@ -35,12 +35,20 @@ public final class Buffer {
     }
 
     /**
-     * Returns the element that has been waiting the most in the queue
+     * Returns the element that has been waiting the most in the queue, and removes it.
      *
      * @return
      */
     public synchronized Message retrive() {
         return queue.poll();
+    }
+    
+    /**
+     * Returns the element that has been waiting the most in the queue, without removing it.
+     * @return 
+     */
+    public synchronized Message look(){
+        return queue.peek();
     }
 
     /**

@@ -28,19 +28,11 @@ public final class Correlator extends CorrelatorTemplate {
     }
 
     @Override
-    protected boolean correlates(Message m1, Message m2) throws SIGException {
+    protected Object extractCorrelation(Message message) throws SIGException {
         if (expresion == null) {
-            return super.correlates(m1, m2);
+            return super.extractCorrelation(message);
         } else {
-            return m1.evalString(expresion).equals(m2.evalString(expresion));
-        }
-    }
-
-    @Override
-    public void validate() throws SIGException {
-        super.validate();
-        if (nInputs() != nOutputs()) {
-            throw new SIGException("Configuration exception. Correlator requires the same number of inputs and outputs", null, null);
+            return message.evalString(expresion);
         }
     }
 
